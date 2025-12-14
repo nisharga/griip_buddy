@@ -1,3 +1,4 @@
+import { categoriesData } from "@/src/static/category";
 import apiSlice from "./api-slice";
 
 export enum CATEGORY_STATUS_ENUM {
@@ -19,13 +20,26 @@ const categoryApi = apiSlice.injectEndpoints({
       invalidatesTags: ["CATEGORIES"],
     }),
     // === get all categories  ===
-    getAllCategories: builder.query({
+    /* getAllCategories: builder.query({
       query: () => ({
         url: `/category`,
         method: "GET",
       }),
       providesTags: ["CATEGORIES"],
+    }), */
+
+    getAllCategories: builder.query({
+      async queryFn() {
+        // ⏳ simulate 1s loading
+        await new Promise((resolve) => setTimeout(resolve, 1000)); 
+        return {
+          data: categoriesData,
+        };
+      },
+      providesTags: ["CATEGORIES"],
     }),
+
+
     // === get single category  ===
     getSingleCategory: builder.query({
       query: ({ category_id }) => ({

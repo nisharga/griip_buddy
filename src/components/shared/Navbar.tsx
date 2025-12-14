@@ -29,6 +29,8 @@ import { useGetCurrentProfileQuery } from "@/src/redux/api/auth-api";
 import { mobileMenuVariants, popoverVariants } from "@/src/types/navbar";
 import { useSearchProductsDropdownQuery } from "@/src/redux/api/publicApi";
 import CartSheet from "./cart/cart-sheet";
+import { useGetAllCategoriesQuery } from "@/src/redux/api/category-api";
+import SkeletonCategories from "../skeleton/SkeletonCategories";
 
 // import { mockSearchData } from "@/src/lib/data";
 
@@ -73,6 +75,12 @@ const Navbar = () => {
     fields: "sku,slider_images",
     is_published: true,
   });
+
+  const {
+    data: categoriesData = [],
+    isLoading: isLoadingCategory,
+    isError,
+  } = useGetAllCategoriesQuery({});
 
   // const user = getUser();
 
@@ -156,59 +164,13 @@ const Navbar = () => {
     removeVendorId(); */
     router.push("/");
   };
+  /*  if (isLoadingCategory) {
+    return <SkeletonCategories />;
+  } */
 
-  // constants/categories.ts
-  const categoriesData = [
-    {
-      name: "Electronics",
-      path: "/categories/electronics",
-      subcategories: [
-        {
-          name: "Mobile Phones",
-          path: "/categories/electronics/mobile-phones",
-        },
-        { name: "Laptops", path: "/categories/electronics/laptops" },
-        { name: "Cameras", path: "/categories/electronics/cameras" },
-      ],
-    },
-    {
-      name: "Fashion",
-      path: "/categories/fashion",
-      subcategories: [
-        { name: "Men", path: "/categories/fashion/men" },
-        { name: "Women", path: "/categories/fashion/women" },
-        { name: "Kids", path: "/categories/fashion/kids" },
-      ],
-    },
-    {
-      name: "Home & Kitchen",
-      path: "/categories/home-kitchen",
-      subcategories: [
-        { name: "Furniture", path: "/categories/home-kitchen/furniture" },
-        { name: "Decor", path: "/categories/home-kitchen/decor" },
-        { name: "Appliances", path: "/categories/home-kitchen/appliances" },
-      ],
-    },
-    {
-      name: "Sports & Outdoors",
-      path: "/categories/sports-outdoors",
-      subcategories: [
-        { name: "Fitness", path: "/categories/sports-outdoors/fitness" },
-        { name: "Cycling", path: "/categories/sports-outdoors/cycling" },
-        { name: "Camping", path: "/categories/sports-outdoors/camping" },
-      ],
-    },
-    {
-      name: "Books",
-      path: "/categories/books",
-      subcategories: [
-        { name: "Fiction", path: "/categories/books/fiction" },
-        { name: "Non-fiction", path: "/categories/books/non-fiction" },
-        { name: "Children", path: "/categories/books/children" },
-      ],
-    },
-  ];
-
+  if (isError) {
+    return <p>Failed to load categories</p>;
+  }
   return (
     <header
       lang="en"
@@ -446,66 +408,70 @@ const Navbar = () => {
           <Container className="hidden md:flex items-center justify-between py-2 bg-white">
             <div className="flex items-center">
               <ul className="flex flex-wrap gap-x-6 gap-y-1">
-                {categoriesData.map((category) => (
-                  <li
-                    key={category.name}
-                    className="relative"
-                    onMouseEnter={() =>
-                      category.subcategories.length > 0 &&
-                      setHoveredCategory(category.name)
-                    }
-                    onMouseLeave={() => setHoveredCategory(null)}
-                  >
-                    <Link
-                      href={category.path}
-                      className="text-[11px] font-medium text-primary hover:text-primary transition-colors relative group py-1 flex items-center"
-                      aria-haspopup={
-                        category.subcategories.length > 0 ? "menu" : undefined
+                {!isLoadingCategory ? (
+                  categoriesData.map((category) => (
+                    <li
+                      key={category.name}
+                      className="relative"
+                      onMouseEnter={() =>
+                        category.subcategories.length > 0 &&
+                        setHoveredCategory(category.name)
                       }
-                      aria-expanded={
-                        hoveredCategory === category.name ? "true" : "false"
-                      }
+                      onMouseLeave={() => setHoveredCategory(null)}
                     >
-                      {category.name}
-                      {category.subcategories.length > 0 && (
-                        <ChevronDown
-                          className={`ml-1 h-3 w-3 transition-transform ${
-                            hoveredCategory === category.name
-                              ? "rotate-180"
-                              : ""
-                          }`}
-                        />
-                      )}
-                      <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
-                    </Link>
-                    <AnimatePresence>
-                      {hoveredCategory === category.name &&
-                        category.subcategories.length > 0 && (
-                          <motion.div
-                            initial="hidden"
-                            animate="visible"
-                            exit="exit"
-                            variants={popoverVariants as any}
-                            className="absolute left-0 top-full z-30 mt-2 w-48 rounded-lg border border-gray-200 bg-white shadow-xl overflow-hidden"
-                          >
-                            <ul className="py-1">
-                              {category.subcategories.map((sub) => (
-                                <li key={sub.name}>
-                                  <Link
-                                    href={sub.path}
-                                    className="block px-4 py-2 text-sm text-secondary hover:text-primary hover:bg-gray-700 transition-colors"
-                                    onClick={() => setHoveredCategory(null)}
-                                  >
-                                    {sub.name}
-                                  </Link>
-                                </li>
-                              ))}
-                            </ul>
-                          </motion.div>
+                      <Link
+                        href={category.path}
+                        className="text-[11px] font-medium text-primary hover:text-primary transition-colors relative group py-1 flex items-center"
+                        aria-haspopup={
+                          category.subcategories.length > 0 ? "menu" : undefined
+                        }
+                        aria-expanded={
+                          hoveredCategory === category.name ? "true" : "false"
+                        }
+                      >
+                        {category.name}
+                        {category.subcategories.length > 0 && (
+                          <ChevronDown
+                            className={`ml-1 h-3 w-3 transition-transform ${
+                              hoveredCategory === category.name
+                                ? "rotate-180"
+                                : ""
+                            }`}
+                          />
                         )}
-                    </AnimatePresence>
-                  </li>
-                ))}
+                        <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                      </Link>
+                      <AnimatePresence>
+                        {hoveredCategory === category.name &&
+                          category.subcategories.length > 0 && (
+                            <motion.div
+                              initial="hidden"
+                              animate="visible"
+                              exit="exit"
+                              variants={popoverVariants as any}
+                              className="absolute left-0 top-full z-30 mt-2 w-48 rounded-lg border border-gray-200 bg-white shadow-xl overflow-hidden"
+                            >
+                              <ul className="py-1">
+                                {category.subcategories.map((sub) => (
+                                  <li key={sub.name}>
+                                    <Link
+                                      href={sub.path}
+                                      className="block px-4 py-2 text-sm text-secondary hover:text-primary hover:bg-gray-700 transition-colors"
+                                      onClick={() => setHoveredCategory(null)}
+                                    >
+                                      {sub.name}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </motion.div>
+                          )}
+                      </AnimatePresence>
+                    </li>
+                  ))
+                ) : (
+                  <SkeletonCategories />
+                )}
               </ul>
             </div>
             <div className="flex items-center gap-4">
