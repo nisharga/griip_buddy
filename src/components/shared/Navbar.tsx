@@ -28,7 +28,8 @@ import {
 import { useGetCurrentProfileQuery } from "@/src/redux/api/auth-api";
 import { mobileMenuVariants, popoverVariants } from "@/src/types/navbar";
 import { useSearchProductsDropdownQuery } from "@/src/redux/api/publicApi";
-import CartSheet from "../cart/cart-sheet";
+import CartSheet from "./cart/cart-sheet";
+
 // import { mockSearchData } from "@/src/lib/data";
 
 const SearchRecommendationSkeleton = () => (
@@ -45,18 +46,7 @@ const SearchRecommendationSkeleton = () => (
   </ul>
 );
 
-interface SubCategory {
-  name: string;
-  path: string;
-}
-
-interface Category {
-  name: string;
-  path: string;
-  subcategories: SubCategory[];
-}
-
-const Navbar = ({ categoriesData = [] }: { categoriesData: Category[] }) => {
+const Navbar = () => {
   // const { totalItems, isOpen } = useAppSelector((state) => state.cart);
   const totalItems = 0;
   const { data: currentProfile } = useGetCurrentProfileQuery({});
@@ -166,6 +156,58 @@ const Navbar = ({ categoriesData = [] }: { categoriesData: Category[] }) => {
     removeVendorId(); */
     router.push("/");
   };
+
+  // constants/categories.ts
+  const categoriesData = [
+    {
+      name: "Electronics",
+      path: "/categories/electronics",
+      subcategories: [
+        {
+          name: "Mobile Phones",
+          path: "/categories/electronics/mobile-phones",
+        },
+        { name: "Laptops", path: "/categories/electronics/laptops" },
+        { name: "Cameras", path: "/categories/electronics/cameras" },
+      ],
+    },
+    {
+      name: "Fashion",
+      path: "/categories/fashion",
+      subcategories: [
+        { name: "Men", path: "/categories/fashion/men" },
+        { name: "Women", path: "/categories/fashion/women" },
+        { name: "Kids", path: "/categories/fashion/kids" },
+      ],
+    },
+    {
+      name: "Home & Kitchen",
+      path: "/categories/home-kitchen",
+      subcategories: [
+        { name: "Furniture", path: "/categories/home-kitchen/furniture" },
+        { name: "Decor", path: "/categories/home-kitchen/decor" },
+        { name: "Appliances", path: "/categories/home-kitchen/appliances" },
+      ],
+    },
+    {
+      name: "Sports & Outdoors",
+      path: "/categories/sports-outdoors",
+      subcategories: [
+        { name: "Fitness", path: "/categories/sports-outdoors/fitness" },
+        { name: "Cycling", path: "/categories/sports-outdoors/cycling" },
+        { name: "Camping", path: "/categories/sports-outdoors/camping" },
+      ],
+    },
+    {
+      name: "Books",
+      path: "/categories/books",
+      subcategories: [
+        { name: "Fiction", path: "/categories/books/fiction" },
+        { name: "Non-fiction", path: "/categories/books/non-fiction" },
+        { name: "Children", path: "/categories/books/children" },
+      ],
+    },
+  ];
 
   return (
     <header

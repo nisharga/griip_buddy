@@ -1,13 +1,4 @@
-import productImg1 from "@/assets/img/1.png";
-import productImg2 from "@/assets/img/2.png";
-import productImg3 from "@/assets/img/3.png";
-import productImg4 from "@/assets/img/4.png";
-import productImg5 from "@/assets/img/5.png";
-import productImg6 from "@/assets/img/6.png";
-import productImg7 from "@/assets/img/7.png";
-import productImg8 from "@/assets/img/8.png";
-import productImg9 from "@/assets/img/9.png";
-import productImg10 from "@/assets/img/10.png";
+ 
 import { StaticImageData } from "next/image";
 // import { Product, ProductReview } from "@/app/(home)/details/[id]/page";
 

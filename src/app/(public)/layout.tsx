@@ -1,4 +1,4 @@
-import BottomMenu from "@/src/components/common/BottomMenu";
+import BottomMenu from "@/src/components/shared/BottomMenu";
 import Footer from "@/src/components/shared/Footer";
 import Navbar from "@/src/components/shared/Navbar";
 

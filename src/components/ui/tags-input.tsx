@@ -1,8 +1,8 @@
 "use client";
 import * as React from "react";
 import { CircleX } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
+import { Input } from "@/src/components/ui/input";
+import { Badge } from "@/src/components/ui/badge";
 
 interface TagSelectorProps
   extends Omit<
@@ -65,7 +65,7 @@ export function TagsInput({
         onChange={(e) => setInputValue(e.target.value)}
         onKeyDown={handleKeyDown}
         onBlur={addTag}
-        className="flex-1 min-w-[120px] border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0 h-7 shadow-none"
+        className="flex-1 min-w-30 border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0 h-7 shadow-none"
         placeholder={tags.length === 0 ? placeholder : ""}
         {...props}
       />
