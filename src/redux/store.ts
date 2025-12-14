@@ -1,7 +1,5 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit"
-import { persistReducer, persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist"
-import storage from "redux-persist/lib/storage"
-import { type TypedUseSelectorHook, useDispatch, useSelector } from "react-redux"
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { type TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 import baseSlice from "./features/baseSlice";
 import cartReducer from "./features/cart-slice";
@@ -9,40 +7,32 @@ import userReducer from "./features/userSlice";
 import apiSlice from "./api/api-slice";
 import apiSliceAuth from "./api/api-slice-auth";
 
+// Combine all reducers
 const rootReducer = combineReducers({
   utils: baseSlice,
   [apiSlice.reducerPath]: apiSlice.reducer,
   [apiSliceAuth.reducerPath]: apiSliceAuth.reducer,
   cart: cartReducer,
   user: userReducer,
-})
+});
 
-const persistConfig = {
-  key: "root",
-  storage,
-  whitelist: ["cart"],
-}
-
-const persistedReducer = persistReducer(persistConfig, rootReducer)
-
+// Configure store
 export const store = configureStore({
-  reducer: persistedReducer,
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
+      serializableCheck: false, // No need to ignore persist actions
     })
       .concat(apiSlice.middleware)
       .concat(apiSliceAuth.middleware),
-})
+});
 
-export const persistor = persistStore(store)
+// Types
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
+// Typed hooks
+export const useAppDispatch = () => useDispatch<AppDispatch>();
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-export const useAppDispatch = () => useDispatch<AppDispatch>()
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
-
-export default store
+export default store;

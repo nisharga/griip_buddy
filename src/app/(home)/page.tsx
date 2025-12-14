@@ -20,7 +20,7 @@ const HomePageMain = async () => {
       {/* <ReadyForOrder /> */}
 
       {/* <AllProducts /> */}
-      <div className="">Hello world</div>
+      <div className="">Hello world nk</div>
     </div>
   );
 };

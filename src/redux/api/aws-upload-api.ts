@@ -1,7 +1,7 @@
- 
-import apiSliceAuth from "./api-slice-auth";
+import apiSlice from "./api-slice";
 
-const awsUploadApi = apiSliceAuth.injectEndpoints({
+
+const awsUploadApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     // === create category  ===
     awsUploadFile: builder.mutation({

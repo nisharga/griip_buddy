@@ -1,5 +1,6 @@
-import { API_BASE_URL } from "@/config";
-import { getAccessToken } from "@/lib/cookies";
+ 
+import { API_BASE_URL } from "@/src/config";
+import { getAccessToken } from "@/src/lib/cookies";
 import { fetchBaseQuery } from "@reduxjs/toolkit/query";
 import { createApi } from "@reduxjs/toolkit/query/react";
 
