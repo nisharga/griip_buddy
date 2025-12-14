@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Hind_Siliguri, Poppins, Roboto } from "next/font/google";
 
 import "./globals.css";
-import ProviderWrapper from "@/hooks/ProviderWrapper";
-import { API_BASE_URL } from "@/config";
 
 export const metadata: Metadata = {
   title: "Griipbuddy",
@@ -37,7 +35,7 @@ export default async function RootLayout({
       <body
         className={`${hind_siliguri.variable} ${poppins.variable} ${roboto.variable} ${hind_siliguri.className} antialiased`}
       >
-        <ProviderWrapper>{children}</ProviderWrapper>
+        <h2>Hello world</h2>
       </body>
     </html>
   );
