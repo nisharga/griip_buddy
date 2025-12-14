@@ -7,9 +7,12 @@
 // import TopVendors from "@/components/home/sections/TopVendors";
 // import TopCategories from "@/components/home/sections/TopCategories";
 
+import { HeroMain } from "./_components";
+
 const HomePageMain = async () => {
   return (
     <div className="">
+      <HeroMain />
       {/* <HeroMain />
       <ShopByCategory />
 

@@ -1,4 +1,4 @@
-import apiSlice from "./api-slice";
+import apiSlice from "../api-slice";
 
 
 const awsUploadApi = apiSlice.injectEndpoints({

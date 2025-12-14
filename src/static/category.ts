@@ -49,3 +49,27 @@
       ],
     },
   ];
+
+    export const slides = [
+    {
+      id: 1,
+      image: "/sample_banner.png",
+    },
+    {
+      id: 2,
+      image: "/sample_banner.png",
+    },
+  ];
+
+    export const sideCards = [
+    {
+      id: 1,
+      image:
+        "https://res.cloudinary.com/dlxfa1n08/image/upload/v1751185565/image_4_kakzm5.png",
+    },
+    {
+      id: 2,
+      image:
+        "https://res.cloudinary.com/dlxfa1n08/image/upload/v1751177016/image_3_veify2.png",
+    },
+  ];

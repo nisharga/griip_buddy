@@ -25,9 +25,9 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "../ui/collapsible";
-import { useGetCurrentProfileQuery } from "@/src/redux/api/auth-api";
+import { useGetCurrentProfileQuery } from "@/src/redux/api/old/auth-api";
 import { mobileMenuVariants, popoverVariants } from "@/src/types/navbar";
-import { useSearchProductsDropdownQuery } from "@/src/redux/api/publicApi";
+import { useSearchProductsDropdownQuery } from "@/src/redux/api/old/publicApi";
 import CartSheet from "./cart/cart-sheet";
 import { useGetAllCategoriesQuery } from "@/src/redux/api/category-api";
 import SkeletonCategories from "../skeleton/SkeletonCategories";
@@ -169,7 +169,7 @@ const Navbar = () => {
   } */
 
   if (isError) {
-    return <p>Failed to load categories</p>;
+    return null;
   }
   return (
     <header

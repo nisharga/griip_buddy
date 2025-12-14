@@ -1,5 +1,5 @@
  
-import apiSliceAuth from "./api-slice-auth";
+import apiSliceAuth from "../api-slice-auth";
 
 const locationApi = apiSliceAuth.injectEndpoints({
   endpoints: (builder) => ({

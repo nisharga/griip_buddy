@@ -212,7 +212,26 @@ const Footer = () => {
         <Container className="py-6">
           <div className="flex flex-col lg:flex-row items-center justify-between space-y-4 lg:space-y-0 w-full">
             {/* Copyright & Links */}
-            <div className="flex items-center justify-between space-y-3 text-center lg:text-right">
+            <div className="flex items-center justify-between w-full space-y-3">
+              <div className="flex flex-col space-y-1">
+                <p className="text-gray-300 text-sm">
+                  © {new Date().getFullYear()}{" "}
+                  <span className="font-bold text-white">Griipbuddy</span>. All
+                  rights reserved.
+                </p>
+                <p className="text-gray-500 text-xs">
+                  Designed by{" "}
+                  <a
+                    className="font-semibold hover:text-primary transition-colors"
+                    target="_blank"
+                    href="https://www.facebook.com/ahmed.nahid.7127"
+                    rel="noreferrer"
+                  >
+                    Nahid Ahmed
+                  </a>
+                </p>
+              </div>
+
               <div className="flex flex-wrap items-center justify-center lg:justify-end gap-4 text-sm">
                 <Link
                   href="#"
@@ -232,25 +251,6 @@ const Footer = () => {
                 >
                   Refunds
                 </Link>
-              </div>
-
-              <div className="flex flex-col items-center lg:items-end space-y-1">
-                <p className="text-gray-300 text-sm">
-                  © {new Date().getFullYear()}{" "}
-                  <span className="font-bold text-white">Griipbuddy</span>. All
-                  rights reserved.
-                </p>
-                <p className="text-gray-500 text-xs">
-                  Crafted by{" "}
-                  <a
-                    className="font-semibold hover:text-primary transition-colors"
-                    target="_blank"
-                    href="https://www.facebook.com/ahmed.nahid.7127"
-                    rel="noreferrer"
-                  >
-                    Nahid Ahmed
-                  </a>
-                </p>
               </div>
             </div>
           </div>

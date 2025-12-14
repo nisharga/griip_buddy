@@ -1,4 +1,4 @@
-import { categoriesData } from "@/src/static/category";
+import { categoriesData, sideCards, slides } from "@/src/static/category";
 import apiSlice from "./api-slice";
 
 export enum CATEGORY_STATUS_ENUM {
@@ -34,6 +34,28 @@ const categoryApi = apiSlice.injectEndpoints({
         await new Promise((resolve) => setTimeout(resolve, 1000)); 
         return {
           data: categoriesData,
+        };
+      },
+      providesTags: ["CATEGORIES"],
+    }),
+
+    getAllSideCards: builder.query({
+      async queryFn() {
+        // ⏳ simulate 1s loading
+        await new Promise((resolve) => setTimeout(resolve, 1000)); 
+        return {
+          data: sideCards,
+        };
+      },
+      providesTags: ["CATEGORIES"],
+    }),
+
+    getAllSlides: builder.query({
+      async queryFn() {
+        // ⏳ simulate 1s loading
+        await new Promise((resolve) => setTimeout(resolve, 1000)); 
+        return {
+          data: slides,
         };
       },
       providesTags: ["CATEGORIES"],
@@ -76,4 +98,6 @@ export const {
   useGetSingleCategoryQuery,
   useUpdateCategoryMutation,
   useUpdateCategoryStatusMutation,
+  useGetAllSideCardsQuery,
+  useGetAllSlidesQuery,
 } = categoryApi;
