@@ -1,0 +1,15 @@
+services:
+ griipbuddy-frontend:
+  container_name: griipbuddy-frontend
+  image: iazadur/griipbuddy-frontend:production
+  networks:
+   - griipbuddy-frontend-network
+  restart: unless-stopped
+  env_file:
+   - .env
+  ports:
+   - "4000:3000"
+
+networks:
+  griipbuddy-frontend-network:
+    driver: bridge
