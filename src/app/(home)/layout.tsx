@@ -1,24 +1,24 @@
-import BottomMenu from "@/components/common/BottomMenu";
-import Footer from "@/components/shared/Footer";
-import Navbar from "@/components/shared/Navbar";
+import BottomMenu from "@/src/components/common/BottomMenu";
+import Footer from "@/src/components/shared/Footer";
+import Navbar from "@/src/components/shared/Navbar";
 
-const fallbackCategoriesData = [
-  {
-    name: "OTHERS",
-    path: "/category/others",
-    subcategories: [],
-  },
-];
-interface SubCategory {
-  name: string;
-  path: string;
-}
+// const fallbackCategoriesData = [
+//   {
+//     name: "OTHERS",
+//     path: "/category/others",
+//     subcategories: [],
+//   },
+// ];
+// interface SubCategory {
+//   name: string;
+//   path: string;
+// }
 
-interface Category {
-  name: string;
-  path: string;
-  subcategories: SubCategory[];
-}
+// interface Category {
+//   name: string;
+//   path: string;
+//   subcategories: SubCategory[];
+// }
 
 // async function getFormattedCategories(): Promise<Category[]> {
 //   try {
@@ -80,14 +80,12 @@ export default async function HomeLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const categories = fallbackCategoriesData;
-
   return (
     <main className={``}>
-      {/* <Navbar categoriesData={categories} /> */}
+      <Navbar />
       {children}
-      {/*  <BottomMenu />
-      <Footer /> */}
+      <BottomMenu />
+      <Footer />
     </main>
   );
 }

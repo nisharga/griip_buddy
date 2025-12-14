@@ -1,21 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, X, TrendingUp, Sparkles, ChevronDown } from "lucide-react";
+import { Search, X, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import type { ChangeEvent, KeyboardEvent } from "react";
-import { mockSearchData, type SearchProduct } from "@/lib/data";
+
 import {
-  trendingSearches,
   mobileSearchOverlayVariants,
   searchInputVariants,
   resultsVariants,
   resultItemVariants,
-} from "@/types/navbar";
+  SearchProduct,
+} from "@/src/types/navbar";
+import { mockSearchData } from "@/src/lib/data";
 
 interface MobileSearchOverlayProps {
   isOpen: boolean;
@@ -26,10 +26,10 @@ const SearchRecommendationSkeleton = () => (
   <div className="space-y-3">
     {Array.from({ length: 3 }).map((_, i) => (
       <div key={`skeleton-${i}`} className="flex items-center gap-4 p-3">
-        <div className="w-12 h-12 bg-gradient-to-r from-gray-200 to-gray-300 rounded-xl animate-pulse"></div>
+        <div className="w-12 h-12 bg-linear-to-r from-gray-200 to-gray-300 rounded-xl animate-pulse"></div>
         <div className="flex-1 space-y-2">
-          <div className="h-4 bg-gradient-to-r from-gray-200 to-gray-300 rounded-full w-3/4 animate-pulse"></div>
-          <div className="h-3 bg-gradient-to-r from-gray-200 to-gray-300 rounded-full w-1/2 animate-pulse"></div>
+          <div className="h-4 bg-linear-to-r from-gray-200 to-gray-300 rounded-full w-3/4 animate-pulse"></div>
+          <div className="h-3 bg-linear-to-r from-gray-200 to-gray-300 rounded-full w-1/2 animate-pulse"></div>
         </div>
       </div>
     ))}
@@ -81,7 +81,6 @@ const MobileSearch = ({ isOpen, onClose }: MobileSearchOverlayProps) => {
       clearTimeout(searchTimeoutRef.current);
     }
     if (searchTerm.length > 0) {
-      setIsLoadingRecommendations(true);
       searchTimeoutRef.current = setTimeout(() => {
         const filtered = mockSearchData.filter((item) =>
           item.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -90,8 +89,6 @@ const MobileSearch = ({ isOpen, onClose }: MobileSearchOverlayProps) => {
         setIsLoadingRecommendations(false);
       }, 300);
     } else {
-      setFilteredRecommendations([]);
-      setIsLoadingRecommendations(false);
     }
     return () => {
       if (searchTimeoutRef.current) {
@@ -116,12 +113,6 @@ const MobileSearch = ({ isOpen, onClose }: MobileSearchOverlayProps) => {
     }
   };
 
-  const handleTrendingSearch = (term: string) => {
-    setSearchTerm(term);
-    router.push(`/search?q=${encodeURIComponent(term)}`);
-    onClose();
-  };
-
   return (
     <AnimatePresence>
       {isOpen && (
@@ -130,7 +121,7 @@ const MobileSearch = ({ isOpen, onClose }: MobileSearchOverlayProps) => {
           animate="visible"
           exit="exit"
           variants={mobileSearchOverlayVariants as any}
-          className="fixed inset-0 z-[70] bg-white md:hidden"
+          className="fixed inset-0 z-70 bg-white md:hidden"
           ref={searchRef}
         >
           <div className="flex items-center justify-between p-4 border-b border-gray-100 bg-gradient-to-r from-primary/5 to-secondary/5">

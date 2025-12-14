@@ -30,6 +30,7 @@
     "@radix-ui/react-tooltip": "^1.2.8",
     "@reduxjs/toolkit": "^2.11.1",
     "clsx": "^2.1.1",
+    "framer-motion": "^12.23.26",
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.561.0",
     "next": "16.0.10",
