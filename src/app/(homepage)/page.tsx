@@ -7,12 +7,13 @@
 // import TopVendors from "@/components/home/sections/TopVendors";
 // import TopCategories from "@/components/home/sections/TopCategories";
 
-import { HeroMain } from "./_components";
+import { HeroMain, ProductCarousel } from "./_components";
 
 const HomePageMain = async () => {
   return (
     <div className="">
       <HeroMain />
+      <ProductCarousel categoryLabel="Mobile Cover" />
       {/* <HeroMain />
       <ShopByCategory />
 
@@ -23,18 +24,6 @@ const HomePageMain = async () => {
       {/* <ReadyForOrder /> */}
 
       {/* <AllProducts /> */}
-      <div className="h-20">Hello world nk</div>
-      <div className="h-20">Hello world nk</div>
-      <div className="h-20">Hello world nk</div>
-      <div className="h-20">Hello world nk</div>
-      <div className="h-20">Hello world nk</div>
-      <div className="h-20">Hello world nk</div>
-      <div className="h-20">Hello world nk</div>
-      <div className="h-20">Hello world nk</div>
-      <div className="h-20">Hello world nk</div>
-      <div className="h-20">Hello world nk</div>
-      <div className="h-20">Hello world nk</div>
-      <div className="h-20">Hello world nk</div>
     </div>
   );
 };

@@ -69,4 +69,5 @@ export interface IProductFull {
   variants: IVariantFull[];
   min_price: number;
   max_price: number;
+  old_price?: number;
 }
