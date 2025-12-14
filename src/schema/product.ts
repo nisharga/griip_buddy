@@ -3,9 +3,7 @@ import { z } from "zod";
 export const ProductSchema = z.object({
  // Basic Info
  name: z
-  .string({
-   required_error: "Product Name is required",
-  })
+  .string()
   .min(3, { message: "Product Name must be at least 3 characters" }),
 
  description: z.string().optional(),
@@ -24,9 +22,7 @@ export const ProductSchema = z.object({
 
  // Shipping
  shipping_cost: z.coerce
-  .number({
-   required_error: "Shipping cost is required",
-  })
+  .number()
   .min(0),
 
  shipping_cost_per_unit: z.coerce.number().min(0).default(0),
@@ -36,9 +32,10 @@ export const ProductSchema = z.object({
  max_order_qty: z.coerce.number().min(1).optional(),
 
  // Delivery & Incentives
- approximately_delivery_time: z.string({
-  required_error: "Delivery time is required",
- }),
+  approximately_delivery_time: z.string().refine((value) => value !== "", {
+  message: "Delivery time is required",
+  path: ["approximately_delivery_time"],
+}),
 
  is_free_delivery: z.boolean(),
 
@@ -88,11 +85,7 @@ export const ProductSchema = z.object({
  //   .optional(),
 
  // Relations (with ObjectId format)
- category: z.string({
-  required_error: "Category ID is required",
- }),
+ category: z.string(), 
 
- subcategory: z.string({
-  required_error: "Sub-category ID is required",
- }),
+ subcategory: z.string(),
 });

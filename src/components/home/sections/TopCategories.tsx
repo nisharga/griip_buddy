@@ -1,18 +1,17 @@
-import React from "react";
-import { categories } from "@/lib/data/top-cat-demo";
-import RecentlyAdded from "./RecentlyAdded";
-import ProductCarousel from "@/components/common/ProductCarousel";
+// /* eslint-disable @typescript-eslint/no-explicit-any */
+// import { categories } from "@/src/lib/data/top-cat-demo";
+// import React from "react";
 
-const TopCategories = () => {
-  return (
-    <div className="flex flex-col">
-      {categories.map((category, i) => (
-        <div key={i}>
-          <ProductCarousel categoryLabel={category.name} />
-        </div>
-      ))}
-    </div>
-  );
-};
+// const TopCategories = () => {
+//   return (
+//     <div className="flex flex-col">
+//       {categories.map((category: any, i: number) => (
+//         <div key={i}>
+//           <ProductCarousel categoryLabel={category.name} />
+//         </div>
+//       ))}
+//     </div>
+//   );
+// };
 
-export default TopCategories;
+// export default TopCategories;

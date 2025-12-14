@@ -3,14 +3,14 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { CheckIcon, XCircle, ChevronDown, XIcon } from "lucide-react";
 
 import { cn } from "@/src/lib/utils";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+// import { Separator } from "@/src/components/ui/separator";
+// import { Button } from "@/components/ui/button";
+// import { Badge } from "@/components/ui/badge";
+// import {
+//   Popover,
+//   PopoverContent,
+//   PopoverTrigger,
+// } from "@/components/ui/popover";
 import {
   Command,
   CommandEmpty,
@@ -20,6 +20,10 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
+import { Badge } from "./badge";
+import { Separator } from "./separator";
+import { Popover, PopoverContent, PopoverTrigger } from "./popover";
+import { Button } from "./button";
 
 /**
  * Variants for the multi-select component to handle different styles.

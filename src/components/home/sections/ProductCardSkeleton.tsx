@@ -4,7 +4,7 @@ export default function ProductCardSkeleton() {
   return (
     <div className="w-full bg-white rounded overflow-hidden border border-gray-100 animate-pulse">
       {/* Image placeholder */}
-      <div className="w-full h-[160px] bg-gray-200" />
+      <div className="w-full h-40 bg-gray-200" />
 
       <div className="p-3 space-y-3">
         {/* Title */}
