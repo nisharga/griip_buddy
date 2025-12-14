@@ -1,10 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/src/components/ui/card";
+import { Badge } from "@/src/components/ui/badge";
+import { Button } from "@/src/components/ui/button";
+import { Separator } from "@/src/components/ui/separator";
 import {
   Package,
   CheckCircle2,
@@ -63,7 +68,7 @@ export default function TrackOrderPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4 md:p-8">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100 p-4 md:p-8">
       <div className="max-w-6xl mx-auto space-y-8">
         {/* Header */}
         <div className="text-center space-y-2">
@@ -199,7 +204,7 @@ export default function TrackOrderPage() {
                               "trackingId"
                             )
                           }
-                          className="h-6 w-6 p-0 flex-shrink-0"
+                          className="h-6 w-6 p-0 shrink-0"
                         >
                           <Copy className="w-3 h-3" />
                         </Button>
