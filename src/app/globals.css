@@ -221,3 +221,11 @@
 .prose a {
  @apply text-primary underline;
 }
+
+/* Mobile sidebar width */
+.fixed.inset-0.z-50.overflow-y-auto.bg-secondary.p-6.flex.flex-col.md\:hidden {
+    width: 70%;
+}
+/* .bg-secondary.md\:hidden.text-white.p-4.fixed.bottom-0.w-full.flex.justify-between.items-center { */
+    /* z-index: 999; */
+/* } */
