@@ -8,12 +8,9 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import type { ChangeEvent, KeyboardEvent } from "react";
 
-// Assuming your types/navbar defines these, adjust paths if necessary
 import {
   // Removed mobileSearchOverlayVariants
   searchInputVariants,
-  resultsVariants,
-  resultItemVariants,
 } from "@/src/types/navbar";
 import { useGetSearchProductsQuery } from "@/src/redux/api/product-api";
 
@@ -50,7 +47,7 @@ const mobileDropdownVariants = {
 const SearchRecommendationSkeleton = () => (
   // Updated skeleton gradient class to use standard Tailwind classes
   <div className="space-y-3">
-    {Array.from({ length: 5 }).map(
+    {Array?.from({ length: 5 }).map(
       (
         _,
         i // Max 5 items for skeleton
@@ -79,19 +76,14 @@ const MobileSearch = ({ isOpen, onClose }: MobileSearchOverlayProps) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const debouncedSearchTerm = useDebounce(searchTerm, 400);
+  console.log("debouncedSearchTerm: ", debouncedSearchTerm); // here get acuall value
 
+  const shouldSearch = debouncedSearchTerm.trim().length > 0;
+  console.log("shouldSearch: ", shouldSearch);
   const {
     data: filteredRecommendations = [],
     isFetching: isLoadingRecommendations,
-  } = useGetSearchProductsQuery(debouncedSearchTerm, {
-    skip: debouncedSearchTerm.length === 0,
-  });
-
-  /* const [filteredRecommendations, setFilteredRecommendations] = useState<
-    SearchProduct[]
-  >([]);
-  const [isLoadingRecommendations, setIsLoadingRecommendations] =
-    useState(false); */
+  } = useGetSearchProductsQuery(debouncedSearchTerm, {});
 
   const searchRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -126,32 +118,6 @@ const MobileSearch = ({ isOpen, onClose }: MobileSearchOverlayProps) => {
       document.removeEventListener("keydown", handleEscapeKey);
     };
   }, [isOpen, onClose]);
-
-  /* useEffect(() => {
-    if (searchTimeoutRef.current) {
-      clearTimeout(searchTimeoutRef.current);
-    }
-
-    if (searchTerm.length > 0) {
-      setIsLoadingRecommendations(true); // Start loading state
-      searchTimeoutRef.current = setTimeout(() => {
-        const filtered = mockSearchData.filter((item) =>
-          item.name.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        setFilteredRecommendations(filtered);
-        setIsLoadingRecommendations(false);
-      }, 300);
-    } else {
-      setFilteredRecommendations([]);
-      setIsLoadingRecommendations(false);
-    }
-
-    return () => {
-      if (searchTimeoutRef.current) {
-        clearTimeout(searchTimeoutRef.current);
-      }
-    };
-  }, [searchTerm]); */
 
   useEffect(() => {
     if (isOpen && searchInputRef.current) {
@@ -247,11 +213,7 @@ const MobileSearch = ({ isOpen, onClose }: MobileSearchOverlayProps) => {
               </motion.div>
             ) : (
               /* Search Results */
-              <motion.div
-                variants={resultsVariants}
-                initial="hidden"
-                animate="visible"
-              >
+              <div>
                 {isLoadingRecommendations ? (
                   <div className="space-y-4">
                     <div className="flex items-center gap-2 mb-4">
@@ -264,69 +226,59 @@ const MobileSearch = ({ isOpen, onClose }: MobileSearchOverlayProps) => {
                   <div>
                     <div className="space-y-3">
                       {/* LIMIT TO MAX 5 PRODUCTS VISIBLE AT ONCE */}
-                      {filteredRecommendations
-                        .slice(0, 5)
-                        .map((item, index) => (
-                          <motion.div
-                            key={item.id}
-                            variants={resultItemVariants}
-                            custom={index}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
+                      {filteredRecommendations.slice(0, 5).map((item) => (
+                        <div key={item.id}>
+                          <Link
+                            href={`/search?q=${encodeURIComponent(item.name)}`}
+                            className="flex items-center gap-4 p-4 rounded-xl bg-white border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300 group"
+                            onClick={() => {
+                              setSearchTerm(item.name);
+                              onClose();
+                            }}
                           >
-                            <Link
-                              href={`/search?q=${encodeURIComponent(
-                                item.name
-                              )}`}
-                              className="flex items-center gap-4 p-4 rounded-xl bg-white border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300 group"
-                              onClick={() => {
-                                setSearchTerm(item.name);
-                                onClose();
-                              }}
-                            >
-                              <div className="relative">
-                                <Image
-                                  src={item?.thumbnail || "/placeholder.svg"}
-                                  alt={item?.name}
-                                  width={60}
-                                  height={60}
-                                  className="rounded-xl object-cover group-hover:scale-105 transition-transform duration-300"
-                                />
-                                {item?.discountPercentage > 0 && (
-                                  <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                                    -{item?.discountPercentage}%
-                                  </div>
-                                )}
-                              </div>
-                              <div className="flex-1 min-w-0">
-                                <h4 className="text-base font-semibold text-gray-900 group-hover:text-primary transition-colors line-clamp-2">
-                                  {item.name}
-                                </h4>
-                                <div className="flex items-center gap-2 mt-2">
-                                  {item.discountPercentage > 0 ? (
-                                    <>
-                                      <span className="text-lg font-bold text-red-500">
-                                        ৳
-                                        {(
-                                          item.price *
-                                          (1 - item.discountPercentage / 100)
-                                        ).toFixed(0)}
-                                      </span>
-                                      <span className="text-sm text-gray-500 line-through">
-                                        ৳{item.price.toFixed(0)}
-                                      </span>
-                                    </>
-                                  ) : (
-                                    <span className="text-lg font-bold text-gray-900">
+                            <div className="relative">
+                              <Image
+                                src={item?.thumbnail || "/placeholder.svg"}
+                                alt={item?.name}
+                                width={80}
+                                height={80}
+                                className="rounded-xl object-cover group-hover:scale-105 transition-transform duration-300"
+                              />
+                              {item?.discountPercentage > 0 && (
+                                <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                                  -{item?.discountPercentage}%
+                                </div>
+                              )}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h4 className="text-sm font-semibold text-gray-900 group-hover:text-primary transition-colors line-clamp-2">
+                                {item.name}
+                              </h4>
+                              <div className="flex items-center gap-2 mt-2">
+                                {item.discountPercentage > 0 ? (
+                                  <>
+                                    <span className="text-base font-bold text-red-500">
+                                      ৳
+                                      {(
+                                        item.price *
+                                        (1 - item.discountPercentage / 100)
+                                      ).toFixed(0)}
+                                    </span>
+                                    <span className="text-sm text-gray-500 line-through">
                                       ৳{item.price.toFixed(0)}
                                     </span>
-                                  )}
-                                </div>
+                                  </>
+                                ) : (
+                                  <span className="text-lg font-bold text-gray-900">
+                                    ৳{item.price.toFixed(0)}
+                                  </span>
+                                )}
                               </div>
-                              <ChevronDown className="h-5 w-5 text-gray-400 -rotate-90 group-hover:text-primary transition-colors" />
-                            </Link>
-                          </motion.div>
-                        ))}
+                            </div>
+                            <ChevronDown className="h-5 w-5 text-gray-400 -rotate-90 group-hover:text-primary transition-colors" />
+                          </Link>
+                        </div>
+                      ))}
 
                       {/* Optional: View All Link */}
                       {filteredRecommendations.length > 5 && (
@@ -365,7 +317,7 @@ const MobileSearch = ({ isOpen, onClose }: MobileSearchOverlayProps) => {
                     </button>
                   </motion.div>
                 )}
-              </motion.div>
+              </div>
             )}
           </div>
         </motion.div>

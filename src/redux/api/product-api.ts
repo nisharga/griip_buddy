@@ -41,7 +41,7 @@ const productApi = apiSlice.injectEndpoints({
         if (!searchTerm.trim()) {
           return { data: [] };
         }
-
+        await new Promise((resolve) => setTimeout(resolve, 1000)); 
         const filtered = product_data?.filter((item) =>
           item.name.toLowerCase().includes(searchTerm.toLowerCase())
         );
