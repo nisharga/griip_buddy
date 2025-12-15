@@ -8,10 +8,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import type { ChangeEvent, KeyboardEvent } from "react";
 
-import {
-  // Removed mobileSearchOverlayVariants
-  searchInputVariants,
-} from "@/src/types/navbar";
+import { searchInputVariants } from "@/src/types/navbar";
 import { useGetSearchProductsQuery } from "@/src/redux/api/product-api";
 
 export function useDebounce<T>(value: T, delay = 300): T {

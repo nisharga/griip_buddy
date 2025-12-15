@@ -14,6 +14,11 @@ const HomePageMain = async () => {
     <div className="">
       <HeroMain />
       <ProductCarousel />
+      <ProductCarousel />
+      <ProductCarousel />
+      <ProductCarousel />
+      <ProductCarousel />
+      <ProductCarousel />
       {/* <HeroMain />
       <ShopByCategory />
 

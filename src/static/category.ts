@@ -59,6 +59,22 @@
       id: 2,
       image: "/sample_banner.png",
     },
+    {
+      id: 3,
+      image: "https://images.pexels.com/photos/267394/pexels-photo-267394.jpeg",
+    },
+    {
+      id: 4,
+      image: "https://images.pexels.com/photos/267394/pexels-photo-267394.jpeg",
+    },
+    {
+      id: 5,
+      image: "https://images.pexels.com/photos/267394/pexels-photo-267394.jpeg",
+    },
+    {
+      id: 6,
+      image: "/sample_banner.png",
+    },
   ];
 
     export const sideCards = [

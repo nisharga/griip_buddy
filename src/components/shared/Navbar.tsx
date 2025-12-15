@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -14,7 +14,6 @@ import {
   Package,
   Gift,
 } from "lucide-react";
-import type { ChangeEvent, KeyboardEvent } from "react";
 import Image from "next/image";
 import { Container } from "../common/container";
 import { useRouter } from "next/navigation";
@@ -27,26 +26,12 @@ import {
 } from "../ui/collapsible";
 import { useGetCurrentProfileQuery } from "@/src/redux/api/old/auth-api";
 import { mobileMenuVariants, popoverVariants } from "@/src/types/navbar";
-import { useSearchProductsDropdownQuery } from "@/src/redux/api/old/publicApi";
 import CartSheet from "./cart/cart-sheet";
 import { useGetAllCategoriesQuery } from "@/src/redux/api/category-api";
 import SkeletonCategories from "../skeleton/SkeletonCategories";
+import DesktopSearch from "./DesktopSearch";
 
 // import { mockSearchData } from "@/src/lib/data";
-
-const SearchRecommendationSkeleton = () => (
-  <ul className="py-1">
-    {Array.from({ length: 3 }).map((_, i) => (
-      <li key={`skeleton-${i}`} className="flex items-center gap-3 px-4 py-2">
-        <div className="w-10 h-10 bg-gray-200 rounded-md animate-pulse"></div>
-        <div className="flex-1 space-y-1">
-          <div className="h-4 bg-gray-200 rounded w-3/4 animate-pulse"></div>
-          <div className="h-3 bg-gray-200 rounded w-1/2 animate-pulse"></div>
-        </div>
-      </li>
-    ))}
-  </ul>
-);
 
 const Navbar = () => {
   // const { totalItems, isOpen } = useAppSelector((state) => state.cart);
@@ -56,9 +41,8 @@ const Navbar = () => {
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
-  const [isSearchPopoverOpen, setIsSearchPopoverOpen] = useState(false);
   const [isLoginDropdownOpen, setIsLoginDropdownOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
+
   // const [filteredRecommendations, setFilteredRecommendations] = useState<
   //   SearchProduct[]
   // >([]);
@@ -69,13 +53,6 @@ const Navbar = () => {
     string | null
   >(null);
 
-  // ============== Search API  ================
-  const { data, isLoading } = useSearchProductsDropdownQuery({
-    search_query: searchTerm,
-    fields: "sku,slider_images",
-    is_published: true,
-  });
-
   const {
     data: categoriesData = [],
     isLoading: isLoadingCategory,
@@ -84,79 +61,17 @@ const Navbar = () => {
 
   // const user = getUser();
 
-  const searchData = data?.data ?? [];
-
-  const searchRef = useRef<HTMLDivElement>(null);
   const loginRef = useRef<HTMLDivElement>(null);
-  const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const router = useRouter();
 
-  useEffect(() => {
-    const handleClickOutside = (event: globalThis.MouseEvent) => {
-      if (
-        searchRef.current &&
-        !searchRef.current.contains(event.target as Node)
-      ) {
-        setIsSearchPopoverOpen(false);
-      }
-      if (
-        loginRef.current &&
-        !loginRef.current.contains(event.target as Node)
-      ) {
-        setIsLoginDropdownOpen(false);
-      }
-    };
-
-    const handleEscapeKey = (event: globalThis.KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setIsSearchPopoverOpen(false);
-        setIsLoginDropdownOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleEscapeKey);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleEscapeKey);
-    };
-  }, []);
-
-  // Desktop search effect
-  useEffect(() => {
-    if (searchTimeoutRef.current) {
-      clearTimeout(searchTimeoutRef.current);
-    }
-    if (searchTerm.length > 0) {
-      searchTimeoutRef.current = setTimeout(() => {
-        /* const filtered = mockSearchData.filter((item) =>
-          item.name.toLowerCase().includes(searchTerm.toLowerCase())
-        ); */
-        /*  setFilteredRecommendations(filtered);
-        setIsLoadingRecommendations(false); */
-        setIsSearchPopoverOpen(true);
-      }, 300);
-    } else {
-      /* setFilteredRecommendations([]);
-      setIsLoadingRecommendations(false);
-      setIsSearchPopoverOpen(false); */
-    }
-    return () => {
-      if (searchTimeoutRef.current) {
-        clearTimeout(searchTimeoutRef.current);
-      }
-    };
-  }, [searchTerm]);
-
-  const handleSearchSubmit = (event: KeyboardEvent<HTMLInputElement>) => {
+  /*  const handleSearchSubmit = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" && searchTerm.length > 0) {
       event.preventDefault();
       router.push(`/search?q=${encodeURIComponent(searchTerm)}`);
       setIsSearchPopoverOpen(false);
       setIsMobileMenuOpen(false);
     }
-  };
+  }; */
 
   const handleLogOut = async () => {
     /* removeUser();
@@ -225,84 +140,8 @@ const Navbar = () => {
             {/* Desktop Right Side */}
             <div className="hidden md:flex items-center gap-4 shrink-0">
               {/* Desktop Search */}
-              <div
-                className="hidden md:flex flex-1 w-full shrink-0 min-w-sm lg:min-w-md max-w-2xl mx-4 "
-                ref={searchRef}
-              >
-                <div className="relative w-full">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-500" />
-                  <input
-                    type="text"
-                    placeholder="Search for products, categories, and more..."
-                    className="w-full rounded-full border border-gray-300 bg-white py-2.5 pl-10 pr-5 text-sm text-gray-900 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-200"
-                    value={searchTerm}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                      setSearchTerm(e.target.value);
-                      setIsSearchPopoverOpen(true); // always open when typing
-                    }}
-                    onFocus={() => setIsSearchPopoverOpen(true)}
-                    onKeyDown={handleSearchSubmit}
-                  />
+              <DesktopSearch />
 
-                  <AnimatePresence>
-                    {isSearchPopoverOpen && isLoading ? (
-                      <SearchRecommendationSkeleton />
-                    ) : isSearchPopoverOpen && searchData?.length > 0 ? (
-                      <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ duration: 0.2 }}
-                        className="absolute left-0 right-0 top-full z-20 mt-2 rounded-lg border border-gray-300 bg-white shadow-xl overflow-hidden"
-                      >
-                        <ul className="py-1">
-                          {searchData?.slice(0, 6).map((item: any) => (
-                            <Link
-                              key={item?._id}
-                              href={`/search?q=${encodeURIComponent(
-                                item?.name
-                              )}`}
-                              prefetch={false}
-                              className="flex items-center gap-3 px-4 py-2 text-sm text-gray-900 hover:bg-gray-100 transition-colors"
-                              onClick={() => {
-                                setSearchTerm(item?.name);
-                                setIsSearchPopoverOpen(false);
-                              }}
-                            >
-                              {item?.thumbnail ? (
-                                <Image
-                                  src={item?.thumbnail || "/placeholder.svg"}
-                                  alt={item?.thumbnail}
-                                  width={40}
-                                  height={40}
-                                  className="rounded-md object-cover"
-                                />
-                              ) : (
-                                ""
-                              )}
-                              <div className="flex-1">
-                                <div className="font-medium">{item?.name}</div>
-                              </div>
-                            </Link>
-                          ))}
-                        </ul>
-                      </motion.div>
-                    ) : isSearchPopoverOpen && searchData?.length === 0 ? (
-                      <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ duration: 0.2 }}
-                        className="absolute left-0 right-0 top-full z-20 mt-2 rounded-lg border border-gray-300 bg-white shadow-xl overflow-hidden text-secondary p-2"
-                      >
-                        No result Found!!
-                      </motion.div>
-                    ) : (
-                      ""
-                    )}
-                  </AnimatePresence>
-                </div>
-              </div>
               <div className="flex gap-1 text-primary items-center">
                 <Gift className="size-7 text-primary" />
                 <div className="text-white">
@@ -456,7 +295,7 @@ const Navbar = () => {
                                   <li key={sub.name}>
                                     <Link
                                       href={sub.path}
-                                      className="block px-4 py-2 text-sm text-secondary hover:text-primary hover:bg-gray-700 transition-colors"
+                                      className="block px-4 py-2 text-sm text-secondary hover:text-primary transition-colors"
                                       onClick={() => setHoveredCategory(null)}
                                     >
                                       {sub.name}
@@ -539,7 +378,6 @@ const Navbar = () => {
                 <button
                   onClick={() => {
                     setIsMobileMenuOpen(false);
-                    setIsSearchPopoverOpen(false);
                   }}
                   aria-label="Close mobile menu"
                   className="p-2 rounded-md hover:bg-primary/20 transition-colors"

@@ -8,7 +8,7 @@ const sliderApi = apiSlice.injectEndpoints({
     getAllSlides: builder.query({
       async queryFn() {
         // ⏳ simulate 1s loading
-        await new Promise((resolve) => setTimeout(resolve, 1000)); 
+        // await new Promise((resolve) => setTimeout(resolve, 1000)); 
         return {
           data: slides,
         };
