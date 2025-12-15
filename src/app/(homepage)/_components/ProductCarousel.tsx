@@ -9,8 +9,9 @@ import { Container } from "@/src/components/common/container";
 import ProductCard from "@/src/components/common/product-card";
 import { Button } from "@/src/components/ui/button";
 
-import { product_data } from "@/src/lib/data";
 import Link from "next/link";
+import { useGetAllProductsQuery } from "@/src/redux/api/product-api";
+import ProductCardSkeleton from "@/src/components/skeleton/ProductCardSkeleton";
 
 type ProductCarouselProps = {
   categoryLabel: string;
@@ -27,6 +28,12 @@ export default function ProductCarousel({
       "(min-width: 1024px)": { slidesToScroll: 3 },
     },
   });
+
+  const {
+    data: productData = [],
+    isLoading,
+    isError,
+  } = useGetAllProductsQuery({});
 
   const [prevBtnDisabled, setPrevBtnDisabled] = useState(true);
   const [nextBtnDisabled, setNextBtnDisabled] = useState(true);
@@ -56,6 +63,9 @@ export default function ProductCarousel({
     console.log(`Added product ${productId} to cart`);
   };
 
+  if (isError) {
+    return null;
+  }
   return (
     <main className="py-8">
       <Container className="c">
@@ -97,20 +107,29 @@ export default function ProductCarousel({
         </div>
 
         <div className="embla overflow-hidden" ref={emblaRef}>
-          <div className="embla__container flex">
-            {product_data.map((product) => (
-              <div
-                key={product.id}
-                className={`embla__slide flex-none w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 pl-2 first:pl-0`}
-              >
-                <div className="pr-2">
-                  <ProductCard
-                    product={product as any}
-                    onAddToCart={handleAddToCart}
-                  />
-                </div>
-              </div>
-            ))}
+          <div className="embla__container flex pb-4">
+            {isLoading
+              ? Array.from({ length: 5 }).map((_, index) => (
+                  <div
+                    key={index}
+                    className="embla__slide flex-none w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 pl-2 first:pl-0"
+                  >
+                    <ProductCardSkeleton />
+                  </div>
+                ))
+              : productData?.map((product) => (
+                  <div
+                    key={product.id}
+                    className={`embla__slide flex-none w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 pl-2 first:pl-0`}
+                  >
+                    <div className="pr-0">
+                      <ProductCard
+                        product={product as any}
+                        onAddToCart={handleAddToCart}
+                      />
+                    </div>
+                  </div>
+                ))}
           </div>
         </div>
       </Container>
