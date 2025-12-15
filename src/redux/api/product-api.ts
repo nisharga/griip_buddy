@@ -33,6 +33,23 @@ const productApi = apiSlice.injectEndpoints({
       providesTags: ["PRODUCTS"],
     }),
 
+    getSearchProducts: builder.query({
+      async queryFn(searchTerm) {
+        // ⏳ simulate real API delay
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        if (!searchTerm.trim()) {
+          return { data: [] };
+        }
+
+        const filtered = product_data?.filter((item) =>
+          item.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+
+        return { data: filtered };
+      },
+    }),
+
    /*  getAllSideCards: builder.query({
       async queryFn() {
         // ⏳ simulate 1s loading
@@ -87,5 +104,6 @@ const productApi = apiSlice.injectEndpoints({
 });
 
 export const {
-  useGetAllProductsQuery
+  useGetAllProductsQuery,
+  useGetSearchProductsQuery
 } = productApi;

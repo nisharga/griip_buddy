@@ -14,9 +14,19 @@ import {
   searchInputVariants,
   resultsVariants,
   resultItemVariants,
-  SearchProduct,
 } from "@/src/types/navbar";
-import { mockSearchData } from "@/src/lib/data";
+import { useGetSearchProductsQuery } from "@/src/redux/api/product-api";
+
+export function useDebounce<T>(value: T, delay = 300): T {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedValue(value), delay);
+    return () => clearTimeout(timer);
+  }, [value, delay]);
+
+  return debouncedValue;
+}
 
 // New variants for the dropdown effect
 const mobileDropdownVariants = {
@@ -67,15 +77,24 @@ interface MobileSearchOverlayProps {
 
 const MobileSearch = ({ isOpen, onClose }: MobileSearchOverlayProps) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredRecommendations, setFilteredRecommendations] = useState<
+
+  const debouncedSearchTerm = useDebounce(searchTerm, 400);
+
+  const {
+    data: filteredRecommendations = [],
+    isFetching: isLoadingRecommendations,
+  } = useGetSearchProductsQuery(debouncedSearchTerm, {
+    skip: debouncedSearchTerm.length === 0,
+  });
+
+  /* const [filteredRecommendations, setFilteredRecommendations] = useState<
     SearchProduct[]
   >([]);
   const [isLoadingRecommendations, setIsLoadingRecommendations] =
-    useState(false);
+    useState(false); */
 
   const searchRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -108,7 +127,7 @@ const MobileSearch = ({ isOpen, onClose }: MobileSearchOverlayProps) => {
     };
   }, [isOpen, onClose]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (searchTimeoutRef.current) {
       clearTimeout(searchTimeoutRef.current);
     }
@@ -132,7 +151,7 @@ const MobileSearch = ({ isOpen, onClose }: MobileSearchOverlayProps) => {
         clearTimeout(searchTimeoutRef.current);
       }
     };
-  }, [searchTerm]);
+  }, [searchTerm]); */
 
   useEffect(() => {
     if (isOpen && searchInputRef.current) {
@@ -216,7 +235,6 @@ const MobileSearch = ({ isOpen, onClose }: MobileSearchOverlayProps) => {
             className="overflow-y-auto p-4"
             style={{ maxHeight: "calc(75vh - 120px)" }}
           >
-            {" "}
             {/* Calculate max height for scroll */}
             {searchTerm.length === 0 ? (
               <motion.div
@@ -242,18 +260,8 @@ const MobileSearch = ({ isOpen, onClose }: MobileSearchOverlayProps) => {
                     </div>
                     <SearchRecommendationSkeleton />
                   </div>
-                ) : filteredRecommendations.length > 0 ? (
+                ) : filteredRecommendations?.length > 0 ? (
                   <div>
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="flex items-center gap-2 mb-4"
-                    >
-                      <Search className="h-5 w-5 text-primary" />
-                      <h3 className="text-lg font-semibold text-gray-800">
-                        Found {filteredRecommendations.length} results
-                      </h3>
-                    </motion.div>
                     <div className="space-y-3">
                       {/* LIMIT TO MAX 5 PRODUCTS VISIBLE AT ONCE */}
                       {filteredRecommendations
@@ -278,30 +286,30 @@ const MobileSearch = ({ isOpen, onClose }: MobileSearchOverlayProps) => {
                             >
                               <div className="relative">
                                 <Image
-                                  src={item.image || "/placeholder.svg"}
-                                  alt={item.name}
+                                  src={item?.thumbnail || "/placeholder.svg"}
+                                  alt={item?.name}
                                   width={60}
                                   height={60}
                                   className="rounded-xl object-cover group-hover:scale-105 transition-transform duration-300"
                                 />
-                                {item.discount > 0 && (
+                                {item?.discountPercentage > 0 && (
                                   <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                                    -{item.discount}%
+                                    -{item?.discountPercentage}%
                                   </div>
                                 )}
                               </div>
                               <div className="flex-1 min-w-0">
-                                <h4 className="font-semibold text-gray-900 group-hover:text-primary transition-colors line-clamp-2">
+                                <h4 className="text-base font-semibold text-gray-900 group-hover:text-primary transition-colors line-clamp-2">
                                   {item.name}
                                 </h4>
                                 <div className="flex items-center gap-2 mt-2">
-                                  {item.discount > 0 ? (
+                                  {item.discountPercentage > 0 ? (
                                     <>
                                       <span className="text-lg font-bold text-red-500">
                                         ৳
                                         {(
                                           item.price *
-                                          (1 - item.discount / 100)
+                                          (1 - item.discountPercentage / 100)
                                         ).toFixed(0)}
                                       </span>
                                       <span className="text-sm text-gray-500 line-through">
