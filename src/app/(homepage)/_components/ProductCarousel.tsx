@@ -60,72 +60,70 @@ export default function ProductCarousel() {
     return null;
   }
   return (
-    <main className="py-4 sm:py-8">
-      <Container className="c">
-        <div className="flex items-center justify-between mb-4 sm:mb-8">
-          <div>
-            <h1 className="text-xl sm:text-2xl font-medium text-gray-900">
-              {categoryLabel}
-            </h1>
-            <Link
-              className="py-3 hover:text-primary hover:underline text-sm sm:text-base"
-              href={"/view-category"}
-            >
-              View All
-            </Link>
-          </div>
-
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={scrollPrev}
-              disabled={prevBtnDisabled}
-              className="h-8 w-8 bg-transparent shadow-none"
-            >
-              <ChevronLeft className="h-4 w-4" />
-              <span className="sr-only">Previous slide</span>
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={scrollNext}
-              disabled={nextBtnDisabled}
-              className="h-8 w-8 shadow-none bg-transparent"
-            >
-              <ChevronRight className="h-4 w-4" />
-              <span className="sr-only">Next slide</span>
-            </Button>
-          </div>
+    <Container className="py-4 px-0 sm:px-2 lg:px-4">
+      <div className="flex items-center justify-between mb-4 sm:mb-8 px-2 sm:px-0">
+        <div>
+          <h1 className="text-xl sm:text-2xl font-medium text-gray-900">
+            {categoryLabel}
+          </h1>
+          <Link
+            className="py-3 hover:text-primary hover:underline text-sm sm:text-base"
+            href={"/view-category"}
+          >
+            View All
+          </Link>
         </div>
 
-        <div className="embla overflow-hidden" ref={emblaRef}>
-          <div className="embla__container flex pb-4">
-            {isLoading
-              ? Array.from({ length: 5 }).map((_, index) => (
-                  <div
-                    key={index}
-                    className="embla__slide flex-none w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 sm:pl-2 first:pl-0"
-                  >
-                    <ProductCardSkeleton />
-                  </div>
-                ))
-              : productData?.map((product) => (
-                  <div
-                    key={product.id}
-                    className={`embla__slide flex-none w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 sm:pl-2 first:pl-0`}
-                  >
-                    <div className="pr-0">
-                      <ProductCard
-                        product={product as any}
-                        onAddToCart={handleAddToCart}
-                      />
-                    </div>
-                  </div>
-                ))}
-          </div>
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={scrollPrev}
+            disabled={prevBtnDisabled}
+            className="h-8 w-8 bg-transparent shadow-none"
+          >
+            <ChevronLeft className="h-4 w-4" />
+            <span className="sr-only">Previous slide</span>
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={scrollNext}
+            disabled={nextBtnDisabled}
+            className="h-8 w-8 shadow-none bg-transparent"
+          >
+            <ChevronRight className="h-4 w-4" />
+            <span className="sr-only">Next slide</span>
+          </Button>
         </div>
-      </Container>
-    </main>
+      </div>
+
+      <div className="embla overflow-hidden" ref={emblaRef}>
+        <div className="embla__container flex pb-4">
+          {isLoading
+            ? Array.from({ length: 5 }).map((_, index) => (
+                <div
+                  key={index}
+                  className="embla__slide flex-none w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 sm:pl-2 first:pl-0"
+                >
+                  <ProductCardSkeleton />
+                </div>
+              ))
+            : productData?.map((product) => (
+                <div
+                  key={product.id}
+                  className={`embla__slide flex-none w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 pl sm:pl-2 first:pl-0`}
+                >
+                  <div className="pr-0">
+                    <ProductCard
+                      product={product as any}
+                      onAddToCart={handleAddToCart}
+                    />
+                  </div>
+                </div>
+              ))}
+        </div>
+      </div>
+    </Container>
   );
 }

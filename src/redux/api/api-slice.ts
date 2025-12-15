@@ -18,7 +18,8 @@ const apiSlice = createApi({
     baseQuery: baseQuery,
     endpoints: () => ({}),
     tagTypes: [
-        "USER",
+       "SLIDER",
+        "USER", 
         "CLIENT_PROFILE",
         "VENDORS",
         "CATEGORIES",

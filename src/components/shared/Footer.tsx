@@ -15,7 +15,6 @@ import {
   Watch,
   Gamepad2,
   Zap,
-  ArrowRight,
 } from "lucide-react";
 import { Container } from "../common/container";
 
@@ -116,10 +115,6 @@ const Footer = () => {
                     href="#"
                     className="text-gray-400 hover:text-primary transition-colors duration-300 text-sm flex items-center group"
                   >
-                    <ArrowRight
-                      size={10}
-                      className="mr-2 opacity-0 group-hover:opacity-100 transition-opacity"
-                    />
                     {link}
                   </Link>
                 </li>
@@ -146,10 +141,6 @@ const Footer = () => {
                     href="#"
                     className="text-gray-400 hover:text-primary transition-colors duration-300 text-sm flex items-center group"
                   >
-                    <category.icon
-                      size={12}
-                      className="mr-2 text-gray-500 group-hover:text-primary transition-colors"
-                    />
                     {category.name}
                   </Link>
                 </li>
@@ -166,8 +157,7 @@ const Footer = () => {
 
             <div className="space-y-3">
               <div className="p-3 bg-gray-900/50 rounded border border-gray-800 hover:border-primary/30 transition-colors">
-                <div className="flex items-start space-x-2">
-                  <MapPin size={14} className="text-primary shrink-0 mt-0.5" />
+                <div className="flex space-x-2 justify-between items-center">
                   <div>
                     <p className="text-white text-xs font-medium">
                       Visit Store
@@ -176,30 +166,32 @@ const Footer = () => {
                       Dhaka, Bangladesh
                     </span>
                   </div>
+
+                  <MapPin size={14} className="text-primary shrink-0 mt-0.5" />
                 </div>
               </div>
 
               <div className="p-3 bg-gray-900/50 rounded border border-gray-800 hover:border-primary/30 transition-colors">
-                <div className="flex items-center space-x-2">
-                  <Phone size={14} className="text-primary shrink-0" />
+                <div className="flex space-x-2 justify-between items-center">
                   <div>
                     <p className="text-white text-xs font-medium">Call Us</p>
                     <span className="text-gray-400 text-xs">
                       +88012345678970
                     </span>
                   </div>
+                  <Phone size={14} className="text-primary shrink-0" />
                 </div>
               </div>
 
               <div className="p-3 bg-gray-900/50 rounded border border-gray-800 hover:border-primary/30 transition-colors">
-                <div className="flex items-center space-x-2">
-                  <Mail size={14} className="text-primary shrink-0" />
+                <div className="flex space-x-2 justify-between items-center">
                   <div>
                     <p className="text-white text-xs font-medium">Email</p>
                     <span className="text-gray-400 text-xs">
                       support@gadgetglitz.com
                     </span>
                   </div>
+                  <Mail size={14} className="text-primary shrink-0" />
                 </div>
               </div>
             </div>
@@ -212,14 +204,14 @@ const Footer = () => {
         <Container className="py-6">
           <div className="flex flex-col lg:flex-row items-center justify-between space-y-4 lg:space-y-0 w-full">
             {/* Copyright & Links */}
-            <div className="flex items-center justify-between w-full space-y-3">
+            <div className="flex flex-col sm:flex-row items-center justify-between w-full space-y-3 px-4">
               <div className="flex flex-col space-y-1">
                 <p className="text-gray-300 text-sm">
                   © {new Date().getFullYear()}{" "}
                   <span className="font-bold text-white">Griipbuddy</span>. All
                   rights reserved.
                 </p>
-                <p className="text-gray-500 text-xs">
+                <p className="text-gray-500 text-xs text-center sm:text-left">
                   Designed by{" "}
                   <a
                     className="font-semibold hover:text-primary transition-colors"
