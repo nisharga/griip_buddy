@@ -8,8 +8,9 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import type { ChangeEvent, KeyboardEvent } from "react";
 
+// Assuming your types/navbar defines these, adjust paths if necessary
 import {
-  mobileSearchOverlayVariants,
+  // Removed mobileSearchOverlayVariants
   searchInputVariants,
   resultsVariants,
   resultItemVariants,
@@ -17,24 +18,52 @@ import {
 } from "@/src/types/navbar";
 import { mockSearchData } from "@/src/lib/data";
 
+// New variants for the dropdown effect
+const mobileDropdownVariants = {
+  hidden: {
+    y: "-100%",
+    opacity: 0,
+    transition: { type: "tween", duration: 0.3 },
+  },
+  visible: {
+    y: "0%",
+    opacity: 1,
+    transition: { type: "tween", duration: 0.3 },
+  },
+  exit: {
+    y: "-100%",
+    opacity: 0,
+    transition: { type: "tween", duration: 0.2 },
+  },
+};
+
+const SearchRecommendationSkeleton = () => (
+  // Updated skeleton gradient class to use standard Tailwind classes
+  <div className="space-y-3">
+    {Array.from({ length: 5 }).map(
+      (
+        _,
+        i // Max 5 items for skeleton
+      ) => (
+        <div
+          key={`skeleton-${i}`}
+          className="flex items-center gap-4 p-3 bg-white border border-gray-100 rounded-xl"
+        >
+          <div className="w-12 h-12 bg-gray-300 rounded-lg animate-pulse"></div>
+          <div className="flex-1 space-y-2">
+            <div className="h-4 bg-gray-300 rounded-full w-4/5 animate-pulse"></div>
+            <div className="h-3 bg-gray-200 rounded-full w-1/2 animate-pulse"></div>
+          </div>
+        </div>
+      )
+    )}
+  </div>
+);
+
 interface MobileSearchOverlayProps {
   isOpen: boolean;
   onClose: () => void;
 }
-
-const SearchRecommendationSkeleton = () => (
-  <div className="space-y-3">
-    {Array.from({ length: 3 }).map((_, i) => (
-      <div key={`skeleton-${i}`} className="flex items-center gap-4 p-3">
-        <div className="w-12 h-12 bg-linear-to-r from-gray-200 to-gray-300 rounded-xl animate-pulse"></div>
-        <div className="flex-1 space-y-2">
-          <div className="h-4 bg-linear-to-r from-gray-200 to-gray-300 rounded-full w-3/4 animate-pulse"></div>
-          <div className="h-3 bg-linear-to-r from-gray-200 to-gray-300 rounded-full w-1/2 animate-pulse"></div>
-        </div>
-      </div>
-    ))}
-  </div>
-);
 
 const MobileSearch = ({ isOpen, onClose }: MobileSearchOverlayProps) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -50,6 +79,9 @@ const MobileSearch = ({ isOpen, onClose }: MobileSearchOverlayProps) => {
   const router = useRouter();
 
   useEffect(() => {
+    // NOTE: For the new dropdown design, we typically remove the outside click handler
+    // as the user should still be able to interact with the page below the dropdown.
+    // However, if you want the dropdown to close when clicking the page body, keep this.
     const handleClickOutside = (event: globalThis.MouseEvent) => {
       if (
         searchRef.current &&
@@ -80,7 +112,9 @@ const MobileSearch = ({ isOpen, onClose }: MobileSearchOverlayProps) => {
     if (searchTimeoutRef.current) {
       clearTimeout(searchTimeoutRef.current);
     }
+
     if (searchTerm.length > 0) {
+      setIsLoadingRecommendations(true); // Start loading state
       searchTimeoutRef.current = setTimeout(() => {
         const filtered = mockSearchData.filter((item) =>
           item.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -89,7 +123,10 @@ const MobileSearch = ({ isOpen, onClose }: MobileSearchOverlayProps) => {
         setIsLoadingRecommendations(false);
       }, 300);
     } else {
+      setFilteredRecommendations([]);
+      setIsLoadingRecommendations(false);
     }
+
     return () => {
       if (searchTimeoutRef.current) {
         clearTimeout(searchTimeoutRef.current);
@@ -120,73 +157,76 @@ const MobileSearch = ({ isOpen, onClose }: MobileSearchOverlayProps) => {
           initial="hidden"
           animate="visible"
           exit="exit"
-          variants={mobileSearchOverlayVariants as any}
-          className="fixed inset-0 z-70 bg-white md:hidden"
+          // 👇 NEW DROPDOWN CLASSES AND VARIANTS
+          variants={mobileDropdownVariants as any}
+          // Fixed positioning right under assumed header (e.g., 4rem/64px), full width, max height
+          className="fixed left-0 right-0 top-16 z-60 bg-white shadow-xl max-h-[75vh] md:hidden 
+                     border-t border-gray-200 overflow-hidden"
           ref={searchRef}
         >
-          <div className="flex items-center justify-between p-4 border-b border-gray-100 bg-gradient-to-r from-primary/5 to-secondary/5">
-            <motion.h2
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.1 }}
-              className="text-lg font-semibold text-gray-800 flex items-center gap-2"
+          {/* Header/Close Button within the dropdown panel */}
+          <div className="flex items-center justify-between px-4 border-b border-gray-100 bg-linear-to-r from-primary/5 to-secondary/5">
+            {/* Search Input */}
+            <motion.div
+              variants={searchInputVariants as any}
+              initial="hidden"
+              animate="visible"
+              className="py-4 border-b border-gray-100 w-full pr-4"
             >
-              <Search className="h-5 w-5 text-primary" />
-              Search Products
-            </motion.h2>
+              <div className="relative">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  placeholder="What are you looking for?"
+                  className="w-full rounded-2xl border-2 border-gray-200 bg-gray-50 py-2 pl-12 pr-6 text-base text-gray-900 placeholder-gray-500 focus:border-primary focus:bg-white focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all duration-300"
+                  value={searchTerm}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setSearchTerm(e.target.value)
+                  }
+                  onKeyDown={handleSearchSubmit}
+                />
+                {searchTerm && (
+                  <motion.button
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => setSearchTerm("")}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-gray-200 transition-colors"
+                  >
+                    <X className="h-4 w-4 text-gray-500" />
+                  </motion.button>
+                )}
+              </div>
+            </motion.div>
             <motion.button
               whileHover={{ scale: 1.1, rotate: 90 }}
               whileTap={{ scale: 0.9 }}
               onClick={onClose}
-              className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+              className="p-2 rounded-full hover:bg-gray-100 transition-colors bg-primary"
               aria-label="Close search"
             >
-              <X className="h-5 w-5 text-gray-600" />
+              <X className="h-5 w-5 text-white" />
             </motion.button>
           </div>
 
-          <motion.div
-            variants={searchInputVariants as any}
-            initial="hidden"
-            animate="visible"
-            className="p-4"
+          {/* Results/Recommendations Container - SCROLLABLE CONTENT */}
+          <div
+            className="overflow-y-auto p-4"
+            style={{ maxHeight: "calc(75vh - 120px)" }}
           >
-            <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-              <input
-                ref={searchInputRef}
-                type="text"
-                placeholder="What are you looking for?"
-                className="w-full rounded-2xl border-2 border-gray-200 bg-gray-50 py-4 pl-12 pr-6 text-base text-gray-900 placeholder-gray-500 focus:border-primary focus:bg-white focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all duration-300"
-                value={searchTerm}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setSearchTerm(e.target.value)
-                }
-                onKeyDown={handleSearchSubmit}
-              />
-              {searchTerm && (
-                <motion.button
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={() => setSearchTerm("")}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-gray-200 transition-colors"
-                >
-                  <X className="h-4 w-4 text-gray-500" />
-                </motion.button>
-              )}
-            </div>
-          </motion.div>
-
-          {/* Content */}
-          <div className="flex-1 overflow-y-auto px-4 pb-4">
+            {" "}
+            {/* Calculate max height for scroll */}
             {searchTerm.length === 0 ? (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-              ></motion.div>
+                className="text-center py-2 text-sm text-gray-600"
+              >
+                Start typing to see product recommendations.
+              </motion.div>
             ) : (
               /* Search Results */
               <motion.div
@@ -215,8 +255,9 @@ const MobileSearch = ({ isOpen, onClose }: MobileSearchOverlayProps) => {
                       </h3>
                     </motion.div>
                     <div className="space-y-3">
+                      {/* LIMIT TO MAX 5 PRODUCTS VISIBLE AT ONCE */}
                       {filteredRecommendations
-                        .slice(0, 8)
+                        .slice(0, 5)
                         .map((item, index) => (
                           <motion.div
                             key={item.id}
@@ -278,6 +319,19 @@ const MobileSearch = ({ isOpen, onClose }: MobileSearchOverlayProps) => {
                             </Link>
                           </motion.div>
                         ))}
+
+                      {/* Optional: View All Link */}
+                      {filteredRecommendations.length > 5 && (
+                        <div className="text-center pt-4">
+                          <Link
+                            href={`/search?q=${encodeURIComponent(searchTerm)}`}
+                            className="text-primary font-semibold hover:text-primary/80 transition-colors"
+                            onClick={onClose}
+                          >
+                            View all {filteredRecommendations.length} results
+                          </Link>
+                        </div>
+                      )}
                     </div>
                   </div>
                 ) : (

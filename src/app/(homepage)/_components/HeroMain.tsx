@@ -334,24 +334,29 @@ const HeroMain = () => {
           {/* SIDE CARDS (Stacked below the slider on mobile) */}
           <div className="grid grid-cols-2 gap-4">
             {/* Side-by-side on mobile */}
-            {isLoadingSlides
-              ? ""
-              : sideCards?.map((card) => (
-                  <div
-                    key={card.id}
-                    className="h-full overflow-hidden relative group cursor-pointer transition-all duration-300"
-                  >
-                    <div className="relative w-full h-full aspect-2/1">
-                      <Image
-                        sizes="100vw"
-                        fill
-                        src={card.image}
-                        alt={`Side product`}
-                        className="w-full h-full object-cover transition-transform duration-300"
-                      />
-                    </div>
+            {isLoadingSlides ? (
+              <>
+                <SlideCardSkeleton />
+                <SlideCardSkeleton />
+              </>
+            ) : (
+              sideCards?.map((card) => (
+                <div
+                  key={card.id}
+                  className="h-full overflow-hidden relative group cursor-pointer transition-all duration-300"
+                >
+                  <div className="relative w-full h-full aspect-2/1">
+                    <Image
+                      sizes="100vw"
+                      fill
+                      src={card.image}
+                      alt={`Side product`}
+                      className="w-full h-full object-cover transition-transform duration-300"
+                    />
                   </div>
-                ))}
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>
