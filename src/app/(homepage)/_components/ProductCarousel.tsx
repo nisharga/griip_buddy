@@ -4,22 +4,16 @@
 import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-
 import { Container } from "@/src/components/common/container";
 import ProductCard from "@/src/components/common/product-card";
 import { Button } from "@/src/components/ui/button";
-
 import Link from "next/link";
 import { useGetAllProductsQuery } from "@/src/redux/api/product-api";
 import ProductCardSkeleton from "@/src/components/skeleton/ProductCardSkeleton";
 
-type ProductCarouselProps = {
-  categoryLabel: string;
-};
+const categoryLabel = "Mobile Cover";
 
-export default function ProductCarousel({
-  categoryLabel,
-}: ProductCarouselProps) {
+export default function ProductCarousel() {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "start",
     slidesToScroll: 1,
@@ -54,7 +48,6 @@ export default function ProductCarousel({
   useEffect(() => {
     if (!emblaApi) return;
 
-    onSelect(emblaApi);
     emblaApi.on("reInit", onSelect);
     emblaApi.on("select", onSelect);
   }, [emblaApi, onSelect]);
@@ -67,15 +60,15 @@ export default function ProductCarousel({
     return null;
   }
   return (
-    <main className="py-8">
+    <main className="py-4 sm:py-8">
       <Container className="c">
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-4 sm:mb-8">
           <div>
-            <h1 className="text-2xl font-medium text-gray-900">
+            <h1 className="text-xl sm:text-2xl font-medium text-gray-900">
               {categoryLabel}
             </h1>
             <Link
-              className="py-3 hover:text-primary hover:underline"
+              className="py-3 hover:text-primary hover:underline text-sm sm:text-base"
               href={"/view-category"}
             >
               View All
@@ -112,7 +105,7 @@ export default function ProductCarousel({
               ? Array.from({ length: 5 }).map((_, index) => (
                   <div
                     key={index}
-                    className="embla__slide flex-none w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 pl-2 first:pl-0"
+                    className="embla__slide flex-none w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 sm:pl-2 first:pl-0"
                   >
                     <ProductCardSkeleton />
                   </div>
@@ -120,7 +113,7 @@ export default function ProductCarousel({
               : productData?.map((product) => (
                   <div
                     key={product.id}
-                    className={`embla__slide flex-none w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 pl-2 first:pl-0`}
+                    className={`embla__slide flex-none w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 sm:pl-2 first:pl-0`}
                   >
                     <div className="pr-0">
                       <ProductCard

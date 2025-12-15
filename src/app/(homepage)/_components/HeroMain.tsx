@@ -78,9 +78,9 @@ const HeroMain = () => {
   }, []);
 
   return (
-    <Container className="py-4 ">
+    <Container className="py-4 px-0 sm:px-2 lg:px-4">
       {/* Main Hero Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-0 sm:mb-6 lg:mb-12">
         <div className="lg:col-span-2 relative">
           <div className="relative h-50 md:h-125 overflow-hidden">
             <AnimatePresence mode="wait">
@@ -137,7 +137,7 @@ const HeroMain = () => {
           </div>
         </div>
 
-        <div className="space-y-8 grid md:flex flex-col grid-cols-2 gap-2">
+        <div className="space-y-4 sm:space-y-8 grid md:flex flex-col grid-cols-2 gap-2">
           {sideCards.map((card, index) => (
             <div
               key={card.id}
@@ -161,15 +161,15 @@ const HeroMain = () => {
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6 }}
-        className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-6"
+        className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-6 px-2 sm:px-0"
       >
         {features.map((feature, index) => (
           <div
             key={index}
-            className="bg-white rounded-2xl px-4 py-4 shadow hover:shadow-lg transition-all duration-300 group cursor-pointer"
+            className="bg-white rounded px-2 py-2 sm:px-4 sm:py-4 shadow hover:shadow-lg transition-all duration-300 group cursor-pointer"
           >
-            <div className="flex items-start gap-4">
-              <div className="bg-primary border border-gray-100 rounded-full p-3 group-hover:scale-110 transition-transform duration-200">
+            <div className="flex items-center sm:items-start gap-2 sm:gap-4">
+              <div className="bg-primary border border-gray-100 rounded-full p-2 sm:p-3 group-hover:scale-110 transition-transform duration-200">
                 <feature.icon className="md:size-6 size-4 text-white" />
               </div>
               <div className="flex-1">

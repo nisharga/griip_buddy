@@ -62,7 +62,7 @@ export default function ProductCard({
         </div>
 
         {/* Content: Compact spacing (p-4) */}
-        <div className="py-4 space-y-2">
+        <div className="py-2 sm:py-4 space-y-2">
           {/* 1. BRAND (Left) & RATING (Right) */}
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -85,9 +85,9 @@ export default function ProductCard({
           </h3>
 
           {/* 3. Price + Cart */}
-          <div className="flex items-center justify-between pt-1">
-            <div className="flex items-baseline gap-2">
-              <span className="text-lg font-extrabold text-primary">
+          <div className="flex items-center justify-between sm:pt-1">
+            <div className="flex flex-col sm:flex-row items-baseline sm:gap-2">
+              <span className="text-base sm:text-lg font-bold text-primary">
                 ৳{discountedPrice.toFixed(2)}
               </span>
               {product.discountPercentage && (

@@ -13,7 +13,7 @@ const HomePageMain = async () => {
   return (
     <div className="">
       <HeroMain />
-      <ProductCarousel categoryLabel="Mobile Cover" />
+      <ProductCarousel />
       {/* <HeroMain />
       <ShopByCategory />
 
