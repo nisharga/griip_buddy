@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/src/components/ui/card";
+import { Badge } from "@/src/components/ui/badge";
 import Image from "next/image";
 
 interface PurchaseItemsProps {
@@ -35,7 +40,7 @@ const PurchaseItems = ({ items }: PurchaseItemsProps) => {
             className="border rounded-lg p-3 md:p-4 space-y-3"
           >
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 <Image
                   src={
                     item?.product?.thumbnail ||

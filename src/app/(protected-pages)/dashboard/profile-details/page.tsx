@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useEffect, useState } from "react";
-import axiosInstance from "@/lib/axiosInstance";
-import { Card, CardContent } from "@/components/ui/card";
-import { Loader2 } from "lucide-react";
+// import axiosInstance from "@/lib/axiosInstance";
+
 import { ProfileHeader } from "./main-components/profile-header";
 import { ProfileResponse } from "./types";
 import { OrderStatistics } from "./main-components/order-statistics";
@@ -14,7 +13,7 @@ export default function ProfilePage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const fetchProfile = async () => {
+  /*  const fetchProfile = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -26,11 +25,11 @@ export default function ProfilePage() {
     } finally {
       setLoading(false);
     }
-  };
+  }; */
 
-  useEffect(() => {
-    fetchProfile();
-  }, []);
+  // useEffect(() => {
+  //   fetchProfile();
+  // }, []);
 
   if (loading) {
     return <Loading text="Loading your profile..." />;

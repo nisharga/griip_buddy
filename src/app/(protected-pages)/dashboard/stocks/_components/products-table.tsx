@@ -13,19 +13,20 @@ import { cn } from "@/src/lib/utils";
 import { Loader } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
-import ProductActions from "./product-actions";
-import { IProduct } from "@/types/product";
+// import ProductActions from "./product-actions";
+// import { IProduct } from "@/types/product";
 import { Switch } from "@/src/components/ui/switch";
-import { useUpdateVendorProductProductIdMutation } from "@/redux/api/vendor";
 import { toast } from "sonner";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/src/components/ui/tooltip";
-import { IStock } from "@/types/stock";
+// import { IStock } from "@/types/stock";
 import { Button } from "@/src/components/ui/button";
 import Link from "next/link";
+import { IStock } from "@/src/types/stock";
+import { useUpdateVendorProductProductIdMutation } from "@/src/redux/api/old/vendor";
 
 type ProductsTableProps = {
   products: IStock[];

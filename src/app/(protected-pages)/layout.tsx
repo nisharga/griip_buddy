@@ -22,7 +22,7 @@ export default function AuthLayout({
   const categories = fallbackCategoriesData;
   return (
     <>
-      <Navbar categoriesData={categories} />
+      {/* <Navbar categoriesData={categories} /> */}
       <div className="">
         {/* pt-4 lg:pt-16 pb-24 */}
         {/* <Container>

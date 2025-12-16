@@ -1,7 +1,7 @@
 "use client";
+import GlobalLoader from "@/src/app/(protected-pages)/components/loading/GlobalLoader";
+import { useGetSinglePurchaseQuery } from "@/src/redux/api/old/purchase";
 import { useParams } from "next/navigation";
-import GlobalLoader from "@/app/(auth-pages)/components/loading/GlobalLoader";
-import { useGetSinglePurchaseQuery } from "@/redux/api/purchase";
 
 const UpdatePage = () => {
   const params = useParams();
@@ -12,6 +12,7 @@ const UpdatePage = () => {
     id,
   });
   const purchase = data?.data;
+  console.log("purchase: ", purchase);
 
   if (isPurchaseLoading) {
     return <GlobalLoader />;

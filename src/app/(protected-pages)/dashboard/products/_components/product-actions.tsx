@@ -8,9 +8,11 @@ import React, { useState } from "react";
 
 import Image from "next/image";
 import { toast } from "sonner";
-import { IProduct } from "@/types/product";
-import { useDeleteProductMutation } from "@/redux/api/product-api";
+// import { IProduct } from "@/types/product";
+// import { useDeleteProductMutation } from "@/redux/api/product-api";
 import { ConfirmActionDialog } from "../../../components/form/form-confirm/confirm-action-dialog";
+import { useDeleteProductMutation } from "@/src/redux/api/old/product-api";
+import { IProduct } from "@/src/types/product";
 
 const ProductActions = ({ product }: { product: IProduct }) => {
   // delete product dialog state

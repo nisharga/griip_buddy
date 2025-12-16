@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { Card, CardContent } from "@/components/ui/card";
-import { API_BASE_URL } from "@/config";
-import axiosInstance from "@/lib/axiosInstance";
+import { Card, CardContent } from "@/src/components/ui/card";
+// import { API_BASE_URL } from "@/config";
+// import axiosInstance from "@/lib/axiosInstance";
 import {
   ShoppingBag,
   Clock,
@@ -17,7 +17,7 @@ export function OrderStatistics() {
   // set data via API :)
   const [data, setData] = useState<any>(null);
 
-  useEffect(() => {
+  /* useEffect(() => {
     async function fetchOrderData() {
       setLoading(true);
       const res = await axiosInstance.get(
@@ -29,7 +29,7 @@ export function OrderStatistics() {
       setLoading(false);
     }
     fetchOrderData();
-  }, []);
+  }, []); */
 
   const stats = [
     {

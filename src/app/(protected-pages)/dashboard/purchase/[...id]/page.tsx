@@ -5,8 +5,8 @@ import PurchaseOverview from "./components/purchase-overview";
 import PurchaseItems from "./components/purchase-items";
 import PurchaseExpenses from "./components/purchase-expenses";
 import PurchaseNotes from "./components/purchase-notes";
-import GlobalLoader from "@/app/(auth-pages)/components/loading/GlobalLoader";
-import { useGetSinglePurchaseQuery } from "@/redux/api/purchase";
+import GlobalLoader from "../../../components/loading/GlobalLoader";
+import { useGetSinglePurchaseQuery } from "@/src/redux/api/old/purchase";
 
 const PurchaseDetailPage = () => {
   const params = useParams();

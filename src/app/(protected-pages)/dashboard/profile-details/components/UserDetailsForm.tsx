@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import ProfileFormElemets from "./ProfileFormElemets";
-import { Form } from "@/components/ui/form";
+import { Form } from "@/src/components/ui/form";
 import { z } from "zod";
 import { profileDetailsSchema } from "../schema";
 
@@ -40,7 +40,7 @@ const UserDetailsForm = () => {
             <button
               type="submit"
               className="bg-purple-500 hover:bg-purple-400 
-                        rounded-[8px] text-center text-white mb-4 w-full py-2 px-4"
+                        rounded-xl text-center text-white mb-4 w-full py-2 px-4"
               data-testid="profile-details-form-update-button"
             >
               Update

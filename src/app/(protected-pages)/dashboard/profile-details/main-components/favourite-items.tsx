@@ -1,8 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Heart, ShoppingCart } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/src/components/ui/card";
+import { Heart } from "lucide-react";
+// import { Button } from "@/components/ui/button";
+// import Image from "next/image";
 
 export function FavoriteItems({ profile }: any) {
   return (

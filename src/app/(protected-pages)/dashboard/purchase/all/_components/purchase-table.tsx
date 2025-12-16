@@ -7,11 +7,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@/src/components/ui/table";
 import { cn } from "@/src/lib/utils";
 import React from "react";
-import { format } from "date-fns";
-import { Badge } from "@/components/ui/badge";
+// import { format } from "date-fns";
+import { Badge } from "@/src/components/ui/badge";
 import Link from "next/link";
 
 type PurchaseTableProps = {
@@ -71,7 +71,7 @@ export function PurchaseTable({
                     </TableCell>
                     <TableCell className="px-4">
                       <span className="flex flex-col gap-1">
-                        {purchase?.purchase_date ? (
+                        {/*  {purchase?.purchase_date ? (
                           <p>
                             {format(
                               new Date(purchase?.purchase_date),
@@ -85,7 +85,7 @@ export function PurchaseTable({
                           </p>
                         ) : (
                           <p>N/A</p>
-                        )}
+                        )} */}
                       </span>
                     </TableCell>
 

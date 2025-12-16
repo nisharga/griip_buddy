@@ -3,8 +3,8 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import GenderDropdown from "./GenderDropdown";
-import { FormInput } from "@/app/(auth-pages)/components";
-import DatePicker from "@/app/(auth-pages)/components/date-picker/DatePicker";
+import { FormInput } from "../../../components";
+import DatePicker from "../../../components/date-picker/DatePicker";
 
 export const animationVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -95,7 +95,7 @@ const ProfileFormElemets = ({ form }: any) => {
         variants={animationVariants}
         transition={{ duration: 0.4, delay: 0.5 }}
       >
-        <div className="font-normal text-sm input-label !mb-2">Gender</div>
+        <div className="font-normal text-sm input-label mb-2!">Gender</div>
         <GenderDropdown form={form} name="gender" />
       </motion.div>
 
@@ -106,7 +106,7 @@ const ProfileFormElemets = ({ form }: any) => {
         variants={animationVariants}
         transition={{ duration: 0.4, delay: 0.6 }}
       >
-        <div className="font-normal text-sm input-label !mb-2">
+        <div className="font-normal text-sm input-label mb-2!">
           Date of Birth
         </div>
         <DatePicker
