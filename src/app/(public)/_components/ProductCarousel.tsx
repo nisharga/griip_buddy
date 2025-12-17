@@ -60,9 +60,10 @@ export default function ProductCarousel() {
     return null;
   }
   return (
-    <Container className="py-4 px-0 sm:px-2 lg:px-4">
-      <div className="flex items-center justify-between mb-4 sm:mb-8 px-2 sm:px-0">
-        <div>
+    <Container className="pb-4 sm:pb-8 px-0 sm:px-2 lg:px-4">
+      <div className="flex items-center justify-between mb-2 sm:mb-4 px-2 sm:px-0">
+        {/* old title */}
+        {/*  <div>
           <h1 className="text-xl sm:text-2xl font-medium text-gray-900">
             {categoryLabel}
           </h1>
@@ -72,9 +73,45 @@ export default function ProductCarousel() {
           >
             View All
           </Link>
+        </div> */}
+
+        <div className="flex items-center justify-between w-full">
+          <div>
+            <h3 className="font-bold uppercase tracking-wide text-secondary">
+              {categoryLabel}
+            </h3>
+            <div className="mt-1 h-0.5 w-full bg-secondary"></div>
+          </div>
+          <Link
+            className="inline-flex text-xs items-center gap-2"
+            href="/view-category"
+          >
+            <button
+              data-slot="button"
+              className="whitespace-nowrap font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive shadow-xs has-[&gt;svg]:px-2.5 bg-secondary text-xs text-white hover:bg-secondary/90 rounded-md px-2 h-7 flex items-center justify-center md:h-9 gap-0"
+            >
+              See More
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                className="lucide lucide-chevron-right size-3"
+                aria-hidden="true"
+              >
+                <path d="m9 18 6-6-6-6"></path>
+              </svg>
+            </button>
+          </Link>
         </div>
 
-        <div className="flex gap-2">
+        {/* old slider arrow */}
+        {/*  <div className="flex gap-2">
           <Button
             variant="outline"
             size="icon"
@@ -95,11 +132,11 @@ export default function ProductCarousel() {
             <ChevronRight className="h-4 w-4" />
             <span className="sr-only">Next slide</span>
           </Button>
-        </div>
+        </div> */}
       </div>
 
       <div className="embla overflow-hidden" ref={emblaRef}>
-        <div className="embla__container flex pb-4">
+        <div className="embla__container flex">
           {isLoading
             ? Array.from({ length: 5 }).map((_, index) => (
                 <div

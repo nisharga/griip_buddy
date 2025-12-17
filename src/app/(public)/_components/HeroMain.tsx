@@ -101,7 +101,7 @@ const HeroMain = () => {
     <Container className="py-0 sm:py-4 px-0 sm:px-2 lg:px-4">
       {/* Main Hero Section */}
       {/* Main Hero Section: The container handles the full width and overall padding */}
-      <div className="mb-0 sm:mb-6 lg:mb-12">
+      <div className="mb-2 lg:mb-4">
         {/* 1. Side Cards */}
         <div className="hidden lg:grid grid-cols-3 gap-4">
           {/* SLIDER (Takes up 2/3 width) */}
