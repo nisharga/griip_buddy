@@ -27,10 +27,10 @@ import ProductDescription from "./_components/ProductDescription";
 
 import { useAppDispatch } from "@/src/redux/store";
 import { addItem } from "@/src/redux/features/cart-slice";
-import { useGetProductBySlugQuery } from "@/src/redux/api/old/publicApi";
 import { WHATSAPP_NUMBER } from "@/src/config";
 import ExploreMore from "./_components/ExploreMore";
 import WhatsAppChat from "./_components/WhatsApp";
+import { useGetSingleProductQuery } from "@/src/redux/api/product-api";
 
 /* ----------------------------- Local Types ------------------------------ */
 type Variant = {
@@ -79,9 +79,11 @@ const makeAttributesPayload = (
 export default function ProductDetailsPage() {
   const pathname = usePathname();
   const slug = pathname?.split("/").filter(Boolean).pop() || "";
+  console.log("slug: ", slug);
 
-  const { data, isLoading, error } = useGetProductBySlugQuery(slug);
-  const productDetails = (data?.data ?? null) as ProductData | null;
+  const { data, isLoading, error } = useGetSingleProductQuery(slug);
+  console.log("data: ", data);
+  const productDetails = (data ?? null) as ProductData | null;
 
   const productImages =
     productDetails?.slider_images?.map((url: string, index: number) => ({
@@ -254,7 +256,7 @@ export default function ProductDetailsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Container className="py-8">
+      <Container className="py-2 lg:py-4">
         {/* Loading / error */}
         {isLoading ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 mb-16">
@@ -275,7 +277,7 @@ export default function ProductDetailsPage() {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 mb-16">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 mb-4 lg:mb-8">
               {/* LEFT: Image gallery */}
               <div className="space-y-4">
                 <ProductImageGallery images={productImages} isLoading={false} />
@@ -284,7 +286,7 @@ export default function ProductDetailsPage() {
               {/* RIGHT: Content */}
               <div className="space-y-6">
                 {/* Header row */}
-                <div className="flex items-center justify-between">
+                {/* <div className="flex items-center lg:justify-between">
                   <div className="flex items-center gap-2 flex-wrap">
                     {!!categoryName && (
                       <span className="text-sm font-medium text-primary-mid bg-primary/10 px-3 py-1 rounded-full flex items-center gap-1">
@@ -357,7 +359,7 @@ export default function ProductDetailsPage() {
                       <Share2 className="w-5 h-5" />
                     </button>
                   </div>
-                </div>
+                </div> */}
 
                 {/* Title */}
                 <div>
@@ -458,7 +460,7 @@ export default function ProductDetailsPage() {
                       >
                         <Minus className="w-4 h-4" />
                       </button>
-                      <span className="px-4 py-2 font-medium min-w-[3rem] text-center">
+                      <span className="px-4 py-2 font-medium min-w-12 text-center">
                         {quantity}
                       </span>
                       <button
@@ -481,7 +483,7 @@ export default function ProductDetailsPage() {
                 </div>
 
                 {/* Actions */}
-                <div className="md:flex md:gap-4">
+                <div className="hidden md:flex md:gap-4">
                   <button
                     onClick={handleAddToCartClick}
                     disabled={!isSelectionComplete || isAdding}
@@ -543,7 +545,7 @@ export default function ProductDetailsPage() {
                 </div>
 
                 {/* WhatsApp */}
-                <div className="grid grid-cols-3 mb-10 gap-4 pt-6 border-t">
+                <div className="grid grid-cols-2 lg:grid-cols-3 mb-10 gap-4 pt-6 border-t">
                   <WhatsAppChat
                     phoneNumber={WHATSAPP_NUMBER}
                     message="Hi! I'm interested in this product."
@@ -555,7 +557,10 @@ export default function ProductDetailsPage() {
             {/* Description */}
             <div className="space-y-3">
               <h3 className="font-medium text-gray-900">Key Features</h3>
-              <ProductDescription description={description} isLoading={false} />
+              <ProductDescription
+                description={description}
+                isLoading={isLoading}
+              />
             </div>
           </>
         )}
@@ -566,7 +571,7 @@ export default function ProductDetailsPage() {
 
       {/* Mobile sticky buttons */}
       {!isLoading && productDetails && (
-        <div className="lg:hidden fixed bottom-14 left-0 right-0 bg-white border-t border-gray-200 p-4 z-50 shadow-lg">
+        <div className="md:hidden fixed bottom-18 left-0 right-0 bg-white border-t border-gray-200 p-4 z-50 shadow-lg">
           <div className="flex gap-3">
             <button
               onClick={handleBuyNowClick}

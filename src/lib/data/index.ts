@@ -5,6 +5,7 @@ import { StaticImageData } from "next/image";
 export interface Product_data {
   id: string;
   name: string;
+  slug: string;
   img: StaticImageData;
   sku: string;
   priceRegular: number;
@@ -21,6 +22,7 @@ export const product_data = [
   {
     id: "1",
     name: "Wireless Noise Cancelling Headphones",
+    slug: "wireless-noise-cancelling-headphones",
     brand: "Sony",
     category: "Audio",
     description:
@@ -41,6 +43,7 @@ export const product_data = [
   {
     id: "2",
     name: "Smart Fitness Band 7",
+     slug: "smart-fitness-band-7",
     brand: "Xiaomi",
     category: "Wearables",
     description: "AMOLED display, heart rate & sleep tracking, 14‑day battery.",
@@ -60,6 +63,7 @@ export const product_data = [
   {
     id: "3",
     name: "Portable Bluetooth Speaker BoomX",
+    slug: "portable-bluetooth-speaker-boomx", 
     brand: "JBL",
     category: "Audio",
     description: "Waterproof, compact, 12 h playtime with punchy bass.",
@@ -68,7 +72,7 @@ export const product_data = [
     stock: 120,
     rating: 4.6,
     thumbnail:
-      "https://images.pexels.com/photos/339465/pexels-photo-339465.jpeg",
+      "https://images.pexels.com/photos/907229/pexels-photo-907229.jpeg",
     images: [
       "https://images.pexels.com/photos/339465/pexels-photo-339465.jpeg",
       "https://images.pexels.com/photos/764520/pexels-photo-764520.jpeg",
@@ -79,6 +83,7 @@ export const product_data = [
   {
     id: "4",
     name: "1080p Smart Home Camera",
+    slug: "1080p-smart-home-camera",
     brand: "TP‑Link",
     category: "Smart Home",
     description: "Night vision, motion alerts, works with Alexa/Google.",
@@ -87,7 +92,7 @@ export const product_data = [
     stock: 80,
     rating: 4.4,
     thumbnail:
-      "https://images.pexels.com/photos/648988/pexels-photo-648988.jpeg",
+      "https://images.pexels.com/photos/430208/pexels-photo-430208.jpeg",
     images: [
       "https://images.pexels.com/photos/648988/pexels-photo-648988.jpeg",
       "https://images.pexels.com/photos/1050313/pexels-photo-1050313.jpeg",
@@ -98,6 +103,7 @@ export const product_data = [
   {
     id: "5",
     name: "Wireless Charging Dock 3‑in‑1",
+    slug: "wireless-charging-dock-3-in-1",
     brand: "Belkin",
     category: "Accessories",
     description: "Charge phone, earbuds & watch simultaneously, fast 18 W.",
@@ -117,6 +123,7 @@ export const product_data = [
   {
     id: "6",
     name: "Smartphone Gimbal Stabilizer Pro",
+    slug: "smartphone-gimbal-stabilizer-pro",
     brand: "DJI",
     category: "Photography",
     description: "3‑axis gimbal, intelligent tracking, foldable & ergonomic.",
@@ -125,7 +132,7 @@ export const product_data = [
     stock: 70,
     rating: 4.8,
     thumbnail:
-      "https://images.pexels.com/photos/621783/pexels-photo-621783.jpeg",
+      "https://images.pexels.com/photos/274973/pexels-photo-274973.jpeg",
     images: [
       "https://images.pexels.com/photos/621783/pexels-photo-621783.jpeg",
       "https://images.pexels.com/photos/125779/pexels-photo-125779.jpeg",
@@ -136,6 +143,7 @@ export const product_data = [
   {
     id: "7",
     name: "Wireless Mechanical Keyboard RGB",
+    slug: "wireless-mechanical-keyboard-rgb",
     brand: "Keychron",
     category: "Computer Accessories",
     description: "75% layout, hot‑swappable switches, ble plus wired mode.",
@@ -155,6 +163,7 @@ export const product_data = [
   {
     id: "8",
     name: "Smartwatch S9 Pro",
+    slug: "smartwatch-s9-pro",
     brand: "Amazfit",
     category: "Wearables",
     description: "GPS, music control, NFC & 12‑day battery life.",
@@ -174,6 +183,7 @@ export const product_data = [
   {
     id: "9",
     name: "USB‑C 10‑in‑1 Hub",
+    slug: "usb-c-10-in-1-hub",
     brand: "Anker",
     category: "Accessories",
     description: "Includes HDMI4K, USB3.0, SD, Ethernet & power passthrough.",
@@ -193,6 +203,7 @@ export const product_data = [
   {
     id: "10",
     name: "4K UHD Streaming Stick",
+    slug: "4k-uhd-streaming-stick",
     brand: "Amazon Fire TV",
     category: "Streaming Devices",
     description: "4K/HDR, Dolby Atmos, Alexa voice remote.",
@@ -200,7 +211,7 @@ export const product_data = [
     discountPercentage: 10,
     stock: 140,
     rating: 4.6,
-    thumbnail: "https://images.pexels.com/photos/8254/pexels-photo.jpg",
+    thumbnail: "https://images.pexels.com/photos/907229/pexels-photo-907229.jpeg",
     images: [
       "https://images.pexels.com/photos/8254/pexels-photo.jpg",
       "https://images.pexels.com/photos/1298601/pexels-photo-1298601.jpeg",

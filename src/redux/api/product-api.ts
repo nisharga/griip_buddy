@@ -50,6 +50,34 @@ const productApi = apiSlice.injectEndpoints({
       },
     }),
 
+    getSingleProduct: builder.query({
+      async queryFn(slug: string) {
+        // ⏳ simulate 1s loading
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+
+        const product = product_data.find(
+          (item) => item.slug === slug
+        );
+
+        if (!product) {
+          return {
+            error: {
+              status: 404,
+              data: "Product not found",
+            },
+          };
+        }
+
+        return {
+          data: product,
+        };
+      },
+      providesTags: (_result, _error, slug) => [
+        { type: "PRODUCTS", id: slug },
+      ],
+    }),
+
+
    /*  getAllSideCards: builder.query({
       async queryFn() {
         // ⏳ simulate 1s loading
@@ -105,5 +133,6 @@ const productApi = apiSlice.injectEndpoints({
 
 export const {
   useGetAllProductsQuery,
-  useGetSearchProductsQuery
+  useGetSearchProductsQuery,
+  useGetSingleProductQuery
 } = productApi;

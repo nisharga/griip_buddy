@@ -1,5 +1,4 @@
 "use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import { ShoppingCart, Star } from "lucide-react";
@@ -8,6 +7,7 @@ interface ProductCardProps {
   product: {
     id: string;
     name: string;
+    slug: string;
     brand: string; // Added brand for the requested feature
     price: number;
     discountPercentage?: number;
@@ -36,7 +36,7 @@ export default function ProductCard({
   };
 
   return (
-    <Link href={`/details/${product.id}`} className="block">
+    <Link href={`/product/${product?.slug}`} className="block">
       {/* PREMIUM CARD CONTAINER: ENTIRE CARD IS INTERACTIVE */}
       <div
         className="group bg-white h-full

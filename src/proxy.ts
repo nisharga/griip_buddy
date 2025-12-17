@@ -2,13 +2,14 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 const protectedRoutes = [
-  "/dashboard",
+  // "/dashboard",
+  // "/dashboard/change-password",
+  // "/dashboard/order",
+  // "/dashboard/orders",
+  // "/dashboard/products",
+  // "/dashboard/profile-details",
+  // "/dashboard/withdraw",
   "/dashboard/change-password",
-  "/dashboard/order",
-  "/dashboard/orders",
-  "/dashboard/products",
-  "/dashboard/profile-details",
-  "/dashboard/withdraw",
 ];
 
 export function proxy(request: NextRequest) {
