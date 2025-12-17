@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { ShoppingCart, Star } from "lucide-react";
+import { Coins, ShoppingCart } from "lucide-react";
 
 interface ProductCardProps {
   product: {
@@ -14,6 +15,9 @@ interface ProductCardProps {
     stock?: number;
     rating?: number;
     thumbnail: string;
+    approximately_delivery_time?: string;
+    coin_per_order?: string;
+    variants?: any;
   };
   onAddToCart?: (productId: string) => void;
 }
@@ -35,6 +39,15 @@ export default function ProductCard({
     }
   };
 
+  // ================= fetching ====================
+  const delivery_time = product?.approximately_delivery_time || "";
+  const name = product?.name || "Product";
+  const coin_per_order = product?.coin_per_order || "0";
+  const regular_price = product?.variants[0].regular_price || "0";
+  const sell_price = product?.variants[0].sell_price || "0";
+
+  console.log("product", product);
+
   return (
     <Link href={`/product/${product?.slug}`} className="block">
       {/* PREMIUM CARD CONTAINER: ENTIRE CARD IS INTERACTIVE */}
@@ -46,7 +59,7 @@ export default function ProductCard({
         {/* Image Section */}
         <div className="relative overflow-hidden">
           <Image
-            src={product.thumbnail || "/placeholder-image.png"}
+            src={product?.thumbnail || "/No_Image_Available.jpg"}
             alt={product.name}
             width={400}
             height={200}
@@ -72,13 +85,14 @@ export default function ProductCard({
           {/* 1. BRAND (Left) & RATING (Right) */}
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
-              {product.brand}
+              {delivery_time}
             </span>
-            {product.rating && (
+            {coin_per_order && (
               <div className="flex items-center gap-1">
-                <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                <Coins className="w-4 h-4 text-yellow-500 fill-yellow-500" />
                 <span className="text-xs text-gray-800 font-semibold">
-                  {product.rating.toFixed(1)}
+                  {/* {product.rating.toFixed(1)} */}
+                  {coin_per_order}
                 </span>
               </div>
             )}
@@ -87,18 +101,18 @@ export default function ProductCard({
           {/* 2. TITLE (Left-aligned) */}
           {/* Title is now outside the <Link> tag but inside the main <Link> wrapper */}
           <h3 className="text-sm font-semibold text-gray-900 leading-snug line-clamp-2 min-h-9.5 text-left mb-1 sm:mb-0">
-            {product.name}
+            {name}
           </h3>
 
           {/* 3. Price + Cart */}
           <div className="flex items-center justify-between">
             <div className="flex flex-col sm:flex-row items-baseline sm:gap-2">
               <span className="text-base sm:text-lg font-bold text-primary">
-                ৳{discountedPrice.toFixed(2)}
+                {/* ৳{discountedPrice.toFixed(2)} */}৳{sell_price}
               </span>
-              {product.discountPercentage && (
+              {regular_price && (
                 <span className="text-sm text-gray-400 line-through font-medium">
-                  ৳{product.price.toFixed(2)}
+                  {/* ৳{product.price.toFixed(2)} */}৳{regular_price}
                 </span>
               )}
             </div>

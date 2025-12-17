@@ -22,7 +22,7 @@ const productApi = apiSlice.injectEndpoints({
       providesTags: ["CATEGORIES"],
     }), */
 
-    getAllProducts: builder.query({
+    /* getAllProducts: builder.query({
       async queryFn() {
         // ⏳ simulate 1s loading
         await new Promise((resolve) => setTimeout(resolve, 1000)); 
@@ -31,7 +31,33 @@ const productApi = apiSlice.injectEndpoints({
         };
       },
       providesTags: ["PRODUCTS"],
+    }), */
+
+
+// Merged Endpoint: Handles both "Get All" and "Search"
+    getAllProducts: builder.query({
+      query: (searchTerm = "") => {
+        // If searchTerm exists, append it; otherwise, hit the base URL
+        const params = searchTerm ? `?search_query=${encodeURIComponent(searchTerm)}` : "";
+        
+        return {
+          url: `product/web/published${params}`,
+          method: "GET",
+        };
+      },
+      // Keeps the data cached under the "PRODUCTS" tag
+      providesTags: ["PRODUCTS"],
+      
+      // Optional: Transform data if you need to filter empty results locally 
+      // to match your previous logic
+      transformResponse: (response, meta, arg) => {
+        // If your API returns all items on empty search but you want 
+        // to force an empty list (matching your original logic):
+        if (arg === "FORCE_EMPTY") return []; 
+        return response;
+      },
     }),
+
 
     getSearchProducts: builder.query({
       async queryFn(searchTerm) {
