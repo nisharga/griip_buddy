@@ -60,7 +60,23 @@ export default function ProductCarousel() {
     return null;
   }
   return (
-    <Container className="pb-4 sm:pb-8 px-0 sm:px-2 lg:px-4">
+    <Container className="pb-4 sm:pb-8 px-0 sm:px-2 lg:px-4 relative">
+      {/* Navigation Controls (Prev/Next/Dots) */}
+
+      <button
+        onClick={scrollPrev}
+        className="absolute cursor-pointer left-0 top-1/2 -translate-y-1/2 bg-white/60 backdrop-blur-sm hover:bg-white transition-all duration-200 rounded-full p-1 sm:p-2 z-10 border"
+      >
+        <ChevronLeft className="md:size-6 size-4 text-slate-700" />
+      </button>
+      <button
+        onClick={scrollNext}
+        className="absolute right-0 cursor-pointer top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm hover:bg-white transition-all duration-200 rounded-full p-1 sm:p-2 z-10 border"
+      >
+        <ChevronRight className="md:size-6 size-4 text-slate-700" />
+      </button>
+      {/* End Navigation Controls (Prev/Next/Dots) */}
+
       <div className="flex items-center justify-between mb-2 sm:mb-4 px-2 sm:px-0">
         {/* old title */}
         {/*  <div>
