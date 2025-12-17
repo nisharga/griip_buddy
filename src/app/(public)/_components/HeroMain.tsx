@@ -98,7 +98,7 @@ const HeroMain = () => {
   }
 
   return (
-    <Container className="py-4 px-0 sm:px-2 lg:px-4">
+    <Container className="py-0 sm:py-4 px-0 sm:px-2 lg:px-4">
       {/* Main Hero Section */}
       {/* Main Hero Section: The container handles the full width and overall padding */}
       <div className="mb-0 sm:mb-6 lg:mb-12">
@@ -366,7 +366,7 @@ const HeroMain = () => {
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6 }}
-        className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-6 px-2 sm:px-0"
+        className="hidden md:grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-6 px-2 sm:px-0"
       >
         {features.map((feature, index) => (
           <div

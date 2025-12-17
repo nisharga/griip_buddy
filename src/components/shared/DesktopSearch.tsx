@@ -89,7 +89,7 @@ const DesktopSearch = () => {
   return (
     <div
       ref={searchRef}
-      className="hidden md:flex flex-1 max-w-3xl mx-4 relative"
+      className="hidden md:flex flex-1 max-w-3xl mx-4 relative w-60 lg:w-80"
     >
       {/* Input */}
       <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-900" />

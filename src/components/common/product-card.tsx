@@ -41,12 +41,12 @@ export default function ProductCard({
       <div
         className="group bg-white h-full
                        transition-all duration-300 ease-in-out
-                       hover:shadow-2xl hover:-translate-y-1 p-2" // Full card lift and shadow on hover
+                       hover:shadow-md hover:-translate-y-1 p-1 sm:p-2" // Full card lift and shadow on hover
       >
         {/* Image Section */}
         <div className="relative overflow-hidden">
           <Image
-            src={product.thumbnail}
+            src={product.thumbnail || "/placeholder-image.png"}
             alt={product.name}
             width={400}
             height={200}
@@ -80,12 +80,12 @@ export default function ProductCard({
 
           {/* 2. TITLE (Left-aligned) */}
           {/* Title is now outside the <Link> tag but inside the main <Link> wrapper */}
-          <h3 className="text-sm font-semibold text-gray-900 leading-snug line-clamp-2 min-h-9.5 text-left">
+          <h3 className="text-sm font-semibold text-gray-900 leading-snug line-clamp-2 min-h-9.5 text-left mb-1 sm:mb-0">
             {product.name}
           </h3>
 
           {/* 3. Price + Cart */}
-          <div className="flex items-center justify-between sm:pt-1">
+          <div className="flex items-center justify-between">
             <div className="flex flex-col sm:flex-row items-baseline sm:gap-2">
               <span className="text-base sm:text-lg font-bold text-primary">
                 ৳{discountedPrice.toFixed(2)}
