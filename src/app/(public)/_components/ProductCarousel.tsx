@@ -6,7 +6,6 @@ import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Container } from "@/src/components/common/container";
 import ProductCard from "@/src/components/common/product-card";
-import { Button } from "@/src/components/ui/button";
 import Link from "next/link";
 import { useGetAllProductsQuery } from "@/src/redux/api/product-api";
 import ProductCardSkeleton from "@/src/components/skeleton/ProductCardSkeleton";

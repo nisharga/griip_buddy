@@ -11,11 +11,13 @@ interface ProductImage {
 interface ProductImageGalleryProps {
   images: ProductImage[];
   isLoading: boolean;
+  isMobile?: boolean;
 }
 
 const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
   images,
   isLoading,
+  isMobile,
 }) => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [isWishlisted, setIsWishlisted] = useState(false);
@@ -42,23 +44,27 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
           className="absolute top-4 right-4 p-2 bg-white/80 backdrop-blur-sm rounded-full hover:bg-white transition-colors"
         >
           <Heart
-            className={`w-6 h-6 ${
+            className={`${isMobile ? "w-4 h-4" : "w-6 h-6"}  ${
               isWishlisted ? "fill-red-500 text-red-500" : "text-gray-600"
             }`}
           />
         </button>
         <button className="absolute top-4 left-4 p-2 bg-white/80 backdrop-blur-sm rounded-full hover:bg-white transition-colors">
-          <Share2 className="w-6 h-6 text-gray-600" />
+          <Share2
+            className={`${isMobile ? "w-4 h-4" : "w-6 h-6"} text-gray-600`}
+          />
         </button>
       </div>
 
       {/* Thumbnails */}
-      <div className="flex gap-4">
+      <div className={`flex gap-4 ${isMobile ? "pl-2" : ""}`}>
         {images.map((image, index) => (
           <button
             key={image.id}
             onClick={() => setSelectedImage(index)}
-            className={`relative w-25 aspect-square bg-white rounded-xl overflow-hidden border-2 transition-all ${
+            className={`relative ${
+              isMobile ? "w-14" : "w-25"
+            } aspect-square bg-white rounded-xl overflow-hidden border-2 transition-all ${
               selectedImage === index
                 ? "border-primary shadow-lg"
                 : "border-gray-200 hover:border-gray-300"

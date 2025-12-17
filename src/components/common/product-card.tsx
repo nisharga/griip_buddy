@@ -59,6 +59,12 @@ export default function ProductCard({
               SAVE {product.discountPercentage}%
             </span>
           )}
+
+          {product.discountPercentage && (
+            <span className="absolute bottom-0 left-0 bg-black text-white text-xs font-bold uppercase px-2 py-1 tracking-wider">
+              🚚 FREE DELIVERY
+            </span>
+          )}
         </div>
 
         {/* Content: Compact spacing (p-4) */}

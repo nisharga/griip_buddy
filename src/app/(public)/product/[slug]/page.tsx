@@ -17,6 +17,8 @@ import {
   Plus,
   Minus,
   ShoppingCart,
+  ChevronDown,
+  Flame,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Container } from "@/src/components/common/container";
@@ -24,7 +26,9 @@ import { Container } from "@/src/components/common/container";
 import ProductImageGallery from "./_components/ProductImageGallery";
 import ProductTitleSkeleton from "../../../../components/skeleton/ProductTitleSkeleton";
 import VariantSelectorSkeleton from "../../../../components/skeleton/VariantSelectorSkeleton";
-import ProductDescription from "./_components/ProductDescription";
+import ProductDescription, {
+  ProductExcerptDescription,
+} from "./_components/ProductDescription";
 
 import { useAppDispatch } from "@/src/redux/store";
 import { addItem } from "@/src/redux/features/cart-slice";
@@ -32,6 +36,7 @@ import { WHATSAPP_NUMBER } from "@/src/config";
 import ExploreMore from "./_components/ExploreMore";
 import WhatsAppChat from "./_components/WhatsApp";
 import { useGetSingleProductQuery } from "@/src/redux/api/product-api";
+import ProductTrustSection from "./_components/ProductTrustSection";
 
 /* ----------------------------- Local Types ------------------------------ */
 type Variant = {
@@ -257,6 +262,15 @@ export default function ProductDetailsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* LEFT: Image gallery */}
+      <div className="space-y-4 block md:hidden">
+        <ProductImageGallery
+          images={productImages}
+          isLoading={false}
+          isMobile={true}
+        />
+      </div>
+
       <Container className="py-2 lg:py-4 md:px-20 lg:px-40">
         {/* Loading / error */}
         {isLoading ? (
@@ -280,7 +294,7 @@ export default function ProductDetailsPage() {
           <>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-4 lg:mb-8">
               {/* LEFT: Image gallery */}
-              <div className="space-y-4">
+              <div className="space-y-4 hidden md:block">
                 <ProductImageGallery images={productImages} isLoading={false} />
               </div>
 
@@ -414,8 +428,23 @@ export default function ProductDetailsPage() {
                   </div>
                 </div>
 
+                {/* Dynamic Attribute, Quantity, Actions */}
+                <ProductOptions
+                  attributeOptions={attributeOptions}
+                  selectedAttributes={selectedAttributes}
+                  setSelectedAttributes={setSelectedAttributes}
+                  quantity={quantity}
+                  setQuantity={setQuantity}
+                  onAddToCart={handleAddToCartClick}
+                  onBuyNow={handleBuyNowClick}
+                />
+
+                <ProductExcerptDescription description={description} />
+
+                <ProductTrustSection />
+
                 {/* Dynamic Attribute Selectors */}
-                {Object.entries(attributeOptions).map(
+                {/* {Object.entries(attributeOptions).map(
                   ([attributeName, options]) => (
                     <div key={attributeName} className="space-y-3">
                       <label className="block text-sm font-medium text-gray-900">
@@ -449,10 +478,10 @@ export default function ProductDetailsPage() {
                       </div>
                     </div>
                   )
-                )}
+                )} */}
 
                 {/* Quantity */}
-                <div className="space-y-3">
+                {/* <div className="space-y-3">
                   <label className="block text-sm font-medium text-gray-900">
                     Quantity
                   </label>
@@ -488,10 +517,10 @@ export default function ProductDetailsPage() {
                       Min: {minOrderQty}, Max: {maxOrderQty}
                     </span>
                   </div>
-                </div>
+                </div> */}
 
                 {/* Actions */}
-                <div className="hidden md:flex md:gap-4">
+                {/* <div className="hidden md:flex md:gap-4">
                   <button
                     onClick={handleAddToCartClick}
                     disabled={!isSelectionComplete || isAdding}
@@ -511,10 +540,10 @@ export default function ProductDetailsPage() {
                       ? "Pre-Order"
                       : "Buy Now"}
                   </button>
-                </div>
+                </div> */}
 
                 {/* Delivery / Warranty / Returns */}
-                <div className="grid grid-cols-3 gap-1 md:gap-4 pt-6">
+                {/*   <div className="grid grid-cols-3 gap-1 md:gap-4">
                   <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
                     <Truck className="w-5 h-5 text-blue-600" />
                     <div>
@@ -550,10 +579,10 @@ export default function ProductDetailsPage() {
                       <p className="text-xs text-orange-700">{returnPolicy}</p>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
                 {/* WhatsApp */}
-                <div className="grid grid-cols-2 lg:grid-cols-3 mb-10 gap-4 pt-6 border-t">
+                <div className="grid grid-cols-2 lg:grid-cols-3 mb-0 lg:mb-10 gap-4 pt-2 border-t">
                   <WhatsAppChat
                     phoneNumber={WHATSAPP_NUMBER}
                     message="Hi! I'm interested in this product."
@@ -578,7 +607,7 @@ export default function ProductDetailsPage() {
       <ExploreMore />
 
       {/* Mobile sticky buttons */}
-      {!isLoading && productDetails && (
+      {/*   {!isLoading && productDetails && (
         <div className="md:hidden fixed bottom-18 left-0 right-0 bg-white border-t border-gray-200 p-4 z-50 shadow-lg">
           <div className="flex gap-3">
             <button
@@ -607,11 +636,12 @@ export default function ProductDetailsPage() {
             </p>
           )}
         </div>
-      )}
+      )} */}
     </div>
   );
 }
 
+// promo-banner
 const PromoBanner = ({ title, contentOne, contentTwo }: any) => {
   return (
     <div className="flex items-stretch overflow-hidden rounded-lg bg-[#1D3E2F] text-white shadow-md max-w-2xl">
@@ -664,6 +694,123 @@ const PromoBanner = ({ title, contentOne, contentTwo }: any) => {
           </svg>
           <span>{contentTwo}</span>
         </div>
+      </div>
+    </div>
+  );
+};
+
+interface ProductOptionsProps {
+  attributeOptions: Record<string, string[]>;
+  selectedAttributes: Record<string, string>;
+  setSelectedAttributes: (val: any) => void;
+  quantity: number;
+  setQuantity: (q: number) => void;
+  onAddToCart: () => void;
+  onBuyNow: () => void;
+}
+
+// ProductOptions
+const ProductOptions: React.FC<ProductOptionsProps> = ({
+  attributeOptions,
+  selectedAttributes,
+  setSelectedAttributes,
+  quantity,
+  setQuantity,
+  onAddToCart,
+  onBuyNow,
+}) => {
+  return (
+    <div className="flex flex-col gap-2 max-w-md">
+      {/* Dynamic Attribute Selectors */}
+      {Object.entries(attributeOptions).map(([attributeName, options]) => (
+        <div key={attributeName} className="space-y-3">
+          <label className="block text-sm font-bold text-gray-900">
+            {attributeName}:{" "}
+            <span className="font-normal">
+              {selectedAttributes[attributeName] || "Select"}
+            </span>
+          </label>
+          <div className="flex gap-2 flex-wrap">
+            {options.map((option) => {
+              const isSelected = selectedAttributes[attributeName] === option;
+              return (
+                <button
+                  key={`${attributeName}:${option}`}
+                  onClick={() =>
+                    setSelectedAttributes((prev: any) => ({
+                      ...prev,
+                      [attributeName]: option,
+                    }))
+                  }
+                  className={`relative flex flex-col items-center border-2 rounded-lg overflow-hidden transition-all duration-200 min-w-21.25 ${
+                    isSelected
+                      ? "border-black bg-white"
+                      : "border-gray-200 hover:border-gray-400"
+                  }`}
+                >
+                  {/* Image Placeholder */}
+                  <div className="w-full h-20 bg-red-500 flex items-center justify-center text-white text-[10px]">
+                    Image Here
+                  </div>
+
+                  {/* Option Label */}
+                  <div className="py-2 px-1 flex items-center justify-center gap-1 w-full text-xs font-semibold">
+                    {option.toLowerCase() === "black" && (
+                      <Flame className="w-3 h-3 text-orange-500 fill-orange-500" />
+                    )}
+                    {option}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+
+      {/* Quantity Dropdown Style */}
+      <div className="space-y-2 flex items-center gap-2">
+        <label className="block text-sm font-bold text-gray-900 pt-2">
+          Qty
+        </label>
+        <div className="relative w-28">
+          <select
+            value={quantity}
+            onChange={(e) => setQuantity(Number(e.target.value))}
+            className="w-full appearance-none bg-white border border-gray-300 rounded-lg py-2 px-4 pr-8 text-sm font-bold focus:outline-none focus:ring-1 focus:ring-gray-400"
+          >
+            {[1, 2, 3, 4, 5].map((num) => (
+              <option key={num} value={num}>
+                {num}
+              </option>
+            ))}
+          </select>
+          <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none text-gray-600" />
+        </div>
+      </div>
+
+      {/* Action Buttons */}
+      <div className="flex mt-2 gap-2">
+        {/* Add to Cart */}
+        <button
+          onClick={onAddToCart}
+          className="flex-1 border-2 border-gray-300 rounded-full py-1 px-4 hover:bg-gray-50 transition-colors"
+        >
+          <div className="text-base font-bold text-gray-900">Add to cart</div>
+          <div className="text-[10px] uppercase font-bold text-gray-600">
+            63% OFF
+          </div>
+        </button>
+
+        {/* Buy Now */}
+        <button
+          onClick={onBuyNow}
+          className="flex-1 bg-primary hover:bg-primary/90 text-white rounded-full py-1 px-4 transition-colors"
+        >
+          <div className="text-base font-bold">Buy now</div>
+          <div className="text-[10px] font-medium opacity-90">
+            Fastest delivery in 2 days
+          </div>
+        </button>
       </div>
     </div>
   );
