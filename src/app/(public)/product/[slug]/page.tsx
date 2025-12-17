@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
@@ -256,7 +257,7 @@ export default function ProductDetailsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Container className="py-2 lg:py-4">
+      <Container className="py-2 lg:py-4 md:px-20 lg:px-40">
         {/* Loading / error */}
         {isLoading ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 mb-16">
@@ -277,14 +278,14 @@ export default function ProductDetailsPage() {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 mb-4 lg:mb-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-4 lg:mb-8">
               {/* LEFT: Image gallery */}
               <div className="space-y-4">
                 <ProductImageGallery images={productImages} isLoading={false} />
               </div>
 
               {/* RIGHT: Content */}
-              <div className="space-y-6">
+              <div className="space-y-2">
                 {/* Header row */}
                 {/* <div className="flex items-center lg:justify-between">
                   <div className="flex items-center gap-2 flex-wrap">
@@ -366,7 +367,7 @@ export default function ProductDetailsPage() {
                   <p className="text-primary font-medium text-sm">
                     {categoryName}
                   </p>
-                  <h1 className="text-2xl md:text-3xl font-semibold text-gray-900 mt-1">
+                  <h1 className="text-lg md:text-xl font-medium text-gray-900">
                     {name}
                   </h1>
                 </div>
@@ -374,7 +375,7 @@ export default function ProductDetailsPage() {
                 {/* Price */}
                 <div className="space-y-2">
                   <div className="flex items-center gap-3">
-                    <span className="text-3xl font-semibold text-gray-900">
+                    <span className="text-2xl font-semibold text-gray-900">
                       Tk {Number(salePrice).toLocaleString()}
                     </span>
                     {regularPrice > salePrice && (
@@ -389,6 +390,13 @@ export default function ProductDetailsPage() {
                       </>
                     )}
                   </div>
+
+                  <PromoBanner
+                    title="Winter Offer"
+                    contentOne="Free Shipping"
+                    contentTwo="Order Now"
+                  />
+
                   <div className="flex items-center gap-4 text-sm text-gray-600">
                     <p className="flex items-center gap-1">
                       <Info className="w-4 h-4" />
@@ -434,7 +442,7 @@ export default function ProductDetailsPage() {
                               aria-label={`${attributeName} ${option}`}
                             >
                               {selected && <Check className="w-3 h-3 mr-1" />}
-                              {option}
+                              {option}sss
                             </button>
                           );
                         })}
@@ -603,3 +611,60 @@ export default function ProductDetailsPage() {
     </div>
   );
 }
+
+const PromoBanner = ({ title, contentOne, contentTwo }: any) => {
+  return (
+    <div className="flex items-stretch overflow-hidden rounded-lg bg-[#1D3E2F] text-white shadow-md max-w-2xl">
+      {/* Red Left Section with Slanted Edge */}
+      <div
+        className="relative flex flex-col justify-center bg-[#AC251B] px-6 py-2 text-center"
+        style={{ clipPath: "polygon(0 0, 100% 0, 85% 100%, 0% 100%)" }}
+      >
+        <span className="text-xs font-bold uppercase leading-tight tracking-wider">
+          {title}
+        </span>
+        {/* Simple decorative circle/ornament background detail */}
+        <div className="absolute -bottom-2 -left-2 h-8 w-8 rounded-full bg-white/10" />
+      </div>
+
+      {/* Content Section */}
+      <div className="flex flex-1 items-center justify-start gap-4 py-2 pl-4 pr-6 text-sm font-medium">
+        <div className="flex items-center gap-1.5">
+          <svg
+            className="h-4 w-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="3"
+              d="M5 13l4 4L19 7"
+            />
+          </svg>
+          <span>{contentOne}</span>
+        </div>
+
+        <div className="h-4 w-px bg-white/30" />
+
+        <div className="flex items-center gap-1.5">
+          <svg
+            className="h-4 w-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="3"
+              d="M5 13l4 4L19 7"
+            />
+          </svg>
+          <span>{contentTwo}</span>
+        </div>
+      </div>
+    </div>
+  );
+};

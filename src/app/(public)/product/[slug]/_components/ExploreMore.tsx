@@ -58,7 +58,7 @@ export default function ExploreMore() {
   };
 
   return (
-    <div className=" py-8">
+    <div className="py-8">
       <Container className="c">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-2xl font-medium text-gray-900">
