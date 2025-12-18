@@ -72,8 +72,7 @@ interface MobileSearchOverlayProps {
 const MobileSearch = ({ isOpen, onClose }: MobileSearchOverlayProps) => {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const debouncedSearchTerm = useDebounce(searchTerm, 400);
-  console.log("debouncedSearchTerm: ", debouncedSearchTerm); // here get acuall value
+  const debouncedSearchTerm = useDebounce(searchTerm, 400); // here get main value
 
   const shouldSearch = debouncedSearchTerm.trim().length > 0;
 

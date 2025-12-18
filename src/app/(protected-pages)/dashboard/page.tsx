@@ -17,7 +17,6 @@ const DashboardPage = () => {
   });
 
   const vendor = data?.data;
-  console.log("🚀 ~ DashboardPage ~ vendor:", vendor, id, data);
 
   if (isLoading || isFetching) {
     return <GlobalLoader />;

@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -20,6 +19,7 @@ import {
 import { Button } from "@/src/components/ui/button";
 import { Separator } from "@/src/components/ui/separator";
 import { Skeleton } from "@/src/components/ui/skeleton";
+import SmartImage from "@/src/components/shared/SmartImage";
 
 export type OrderItem = {
   id: string;
@@ -117,7 +117,7 @@ export default function OrderSummary({
                 animate={{ opacity: 1, y: 0 }}
                 className="flex gap-3 rounded-lg border border-gray-100 p-3"
               >
-                <Image
+                <SmartImage
                   src={it.product.thumbnail || "/placeholder.svg"}
                   alt={it.product.name}
                   width={72}

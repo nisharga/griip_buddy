@@ -27,6 +27,7 @@ import {
   removeItem as removeLocalItem,
   updateQty as updateLocalQty,
   selectCartItems,
+  clearCart,
 } from "@/src/redux/features/cart-slice";
 
 // import { API_BASE_URL } from "@/config";
@@ -422,6 +423,7 @@ const CheckoutPageMain: React.FC = () => {
       const data = await res.json();
       setOrderPlaced({ id: data?.data?._id || undefined });
       toast.success("Order placed successfully!");
+      dispatch(clearCart());
     } catch (e: any) {
       toast.error(e?.message || "Failed to place order");
     } finally {
