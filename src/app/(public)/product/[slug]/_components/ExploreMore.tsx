@@ -10,8 +10,13 @@ import ProductCard from "@/src/components/common/product-card";
 import { Button } from "@/src/components/ui/button";
 
 import { product_data } from "@/src/lib/data";
+import { useGetAllProductsQuery } from "@/src/redux/api/product-api";
 
 export default function ExploreMore() {
+  const { data, isLoading, isError } = useGetAllProductsQuery({});
+
+  const productData = data?.data?.data;
+
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "start",
     slidesToScroll: 1,
@@ -105,7 +110,7 @@ export default function ExploreMore() {
 
         <div className="embla overflow-hidden" ref={emblaRef}>
           <div className="embla__container flex">
-            {product_data.map((product) => (
+            {productData?.map((product: any) => (
               <div
                 key={product.id}
                 className="embla__slide flex-none w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 pl-0 sm:pl-2 first:pl-0"

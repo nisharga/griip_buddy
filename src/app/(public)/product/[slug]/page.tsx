@@ -389,7 +389,7 @@ export default function ProductDetailsPage() {
       </Container>
 
       {/* Explore More */}
-      {/* <ExploreMore /> */}
+      <ExploreMore />
     </div>
   );
 }
