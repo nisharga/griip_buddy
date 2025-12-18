@@ -5,11 +5,11 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search } from "lucide-react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import type { ChangeEvent, KeyboardEvent } from "react";
 
 import { useGetAllProductsQuery } from "@/src/redux/api/product-api";
+import SmartImage from "./SmartImage";
 
 /* ---------------- Debounce Hook ---------------- */
 function useDebounce<T>(value: T, delay = 300): T {
@@ -136,8 +136,8 @@ const DesktopSearch = () => {
                       setIsOpen(false);
                     }}
                   >
-                    <Image
-                      src={item.thumbnail || "/No_Image_Available.jpg"}
+                    <SmartImage
+                      src={item.thumbnail}
                       alt={item.name}
                       width={44}
                       height={44}

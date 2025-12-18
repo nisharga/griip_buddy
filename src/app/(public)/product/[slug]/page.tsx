@@ -87,9 +87,11 @@ export default function ProductDetailsPage() {
   const slug = pathname?.split("/").filter(Boolean).pop() || "";
   console.log("slug: ", slug);
 
-  const { data, isLoading, error } = useGetSingleProductQuery(slug);
-  console.log("data: ", data);
-  const productDetails = (data ?? null) as ProductData | null;
+  const { data, isLoading, error } = useGetSingleProductQuery({ slug });
+
+  const productDetails = (data?.data ?? null) as ProductData | null;
+
+  console.log("productDetails: ", productDetails);
 
   const productImages =
     productDetails?.slider_images?.map((url: string, index: number) => ({
@@ -247,7 +249,7 @@ export default function ProductDetailsPage() {
   /* ------------------------------ Render ------------------------------- */
   const name = productDetails?.name ?? "Product";
   const description = productDetails?.description ?? "";
-  const categoryName = productDetails?.category?.name;
+  const categoryName = productDetails?.category?.name || "No Category";
   const offerTags = productDetails?.offer_tags ?? [];
   const coinPerOrder = productDetails?.coin_per_order ?? 0;
 
@@ -262,7 +264,7 @@ export default function ProductDetailsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* LEFT: Image gallery */}
+      {/* LEFT: Image gallery for mobile */}
       <div className="space-y-4 block md:hidden">
         <ProductImageGallery
           images={productImages}
@@ -300,82 +302,6 @@ export default function ProductDetailsPage() {
 
               {/* RIGHT: Content */}
               <div className="space-y-2">
-                {/* Header row */}
-                {/* <div className="flex items-center lg:justify-between">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    {!!categoryName && (
-                      <span className="text-sm font-medium text-primary-mid bg-primary/10 px-3 py-1 rounded-full flex items-center gap-1">
-                        <Tag className="w-3 h-3" />
-                        {categoryName}
-                      </span>
-                    )}
-                    {offerTags.slice(0, 2).map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-sm font-medium text-orange-700 bg-orange-100 px-3 py-1 rounded-full flex items-center gap-1"
-                      >
-                        <Zap className="w-3 h-3" />
-                        {tag.replace("-", " ").toUpperCase()}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => setIsWishlisted((v) => !v)}
-                      className={`p-2 rounded-full border transition-all duration-200 ${
-                        isWishlisted
-                          ? "bg-primary border-primary text-white"
-                          : "border-gray-300 hover:border-primary hover:text-primary"
-                      }`}
-                      aria-label={
-                        isWishlisted
-                          ? "Remove from wishlist"
-                          : "Add to wishlist"
-                      }
-                    >
-                      <Heart
-                        className={`w-5 h-5 ${
-                          isWishlisted ? "fill-current" : ""
-                        }`}
-                      />
-                    </button>
-                    <button
-                      onClick={async () => {
-                        const shareData = {
-                          title: name,
-                          text: `Check out ${name}!`,
-                          url: window.location.href,
-                        };
-                        try {
-                          if (navigator.share) {
-                            await navigator.share(shareData);
-                          } else {
-                            await navigator.clipboard.writeText(
-                              window.location.href
-                            );
-                            toast.success("Product link copied to clipboard!");
-                          }
-                        } catch {
-                          try {
-                            await navigator.clipboard.writeText(
-                              window.location.href
-                            );
-                            toast.success("Product link copied to clipboard!");
-                          } catch {
-                            toast.error(
-                              "Unable to share. Please copy the URL manually."
-                            );
-                          }
-                        }
-                      }}
-                      className="p-2 rounded-full border border-gray-300 hover:border-primary hover:text-primary transition-all duration-200"
-                      aria-label="Share product"
-                    >
-                      <Share2 className="w-5 h-5" />
-                    </button>
-                  </div>
-                </div> */}
-
                 {/* Title */}
                 <div>
                   <p className="text-primary font-medium text-sm">
@@ -443,144 +369,6 @@ export default function ProductDetailsPage() {
 
                 <ProductTrustSection />
 
-                {/* Dynamic Attribute Selectors */}
-                {/* {Object.entries(attributeOptions).map(
-                  ([attributeName, options]) => (
-                    <div key={attributeName} className="space-y-3">
-                      <label className="block text-sm font-medium text-gray-900">
-                        Select {attributeName}
-                      </label>
-                      <div className="flex gap-2 flex-wrap">
-                        {options.map((option) => {
-                          const selected =
-                            selectedAttributes[attributeName] === option;
-                          return (
-                            <button
-                              key={`${attributeName}:${option}`}
-                              onClick={() =>
-                                setSelectedAttributes((prev) => ({
-                                  ...prev,
-                                  [attributeName]: option,
-                                }))
-                              }
-                              className={`px-4 text-xs py-2 border-2 rounded-lg font-medium transition-all duration-200 flex items-center justify-center min-w-[64px] ${
-                                selected
-                                  ? "border-primary bg-primary text-white"
-                                  : "border-gray-300 hover:border-primary hover:text-primary"
-                              }`}
-                              aria-label={`${attributeName} ${option}`}
-                            >
-                              {selected && <Check className="w-3 h-3 mr-1" />}
-                              {option}sss
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )
-                )} */}
-
-                {/* Quantity */}
-                {/* <div className="space-y-3">
-                  <label className="block text-sm font-medium text-gray-900">
-                    Quantity
-                  </label>
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center border border-gray-200 rounded-lg">
-                      <button
-                        onClick={() =>
-                          setQuantity((q) => Math.max(minOrderQty, q - 1))
-                        }
-                        className="p-2 hover:bg-gray-50 transition-colors"
-                        disabled={isAdding}
-                        aria-label="Decrease quantity"
-                      >
-                        <Minus className="w-4 h-4" />
-                      </button>
-                      <span className="px-4 py-2 font-medium min-w-12 text-center">
-                        {quantity}
-                      </span>
-                      <button
-                        onClick={() =>
-                          setQuantity((q) =>
-                            Math.min(q + 1, Math.max(1, maxOrderQty))
-                          )
-                        }
-                        className="p-2 hover:bg-gray-50 transition-colors"
-                        disabled={isAdding}
-                        aria-label="Increase quantity"
-                      >
-                        <Plus className="w-4 h-4" />
-                      </button>
-                    </div>
-                    <span className="text-xs text-gray-500">
-                      Min: {minOrderQty}, Max: {maxOrderQty}
-                    </span>
-                  </div>
-                </div> */}
-
-                {/* Actions */}
-                {/* <div className="hidden md:flex md:gap-4">
-                  <button
-                    onClick={handleAddToCartClick}
-                    disabled={!isSelectionComplete || isAdding}
-                    className="w-full bg-primary hover:bg-[#c460b5] disabled:bg-gray-300 disabled:cursor-not-allowed text-white py-3 px-6 rounded-lg text-lg font-medium transition-colors flex items-center justify-center gap-2"
-                  >
-                    <ShoppingCart className="w-5 h-5" />
-                    {isAdding ? "Adding..." : "Add to Cart"}
-                  </button>
-                  <button
-                    onClick={handleBuyNowClick}
-                    disabled={!isSelectionComplete || isAdding}
-                    className="w-full border-2 border-primary text-primary hover:bg-primary/10 py-3 px-6 rounded-lg text-lg font-medium transition-colors"
-                  >
-                    {isAdding
-                      ? "Processing..."
-                      : hasPreOrder
-                      ? "Pre-Order"
-                      : "Buy Now"}
-                  </button>
-                </div> */}
-
-                {/* Delivery / Warranty / Returns */}
-                {/*   <div className="grid grid-cols-3 gap-1 md:gap-4">
-                  <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
-                    <Truck className="w-5 h-5 text-blue-600" />
-                    <div>
-                      <p className="text-sm font-medium text-blue-900">
-                        {isFreeDelivery ? "Free Shipping" : "Shipping"}
-                      </p>
-                      <p className="text-xs text-blue-700">
-                        {isFreeDelivery
-                          ? deliveryTime
-                          : `Tk ${shippingCost}${
-                              shippingCostPerUnit > 0
-                                ? ` + Tk ${shippingCostPerUnit}/unit`
-                                : ""
-                            }`}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
-                    <Shield className="w-5 h-5 text-green-600" />
-                    <div>
-                      <p className="text-sm font-medium text-green-900">
-                        Warranty
-                      </p>
-                      <p className="text-xs text-green-700">{warranty}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 bg-orange-50 rounded-lg">
-                    <RotateCcw className="w-5 h-5 text-orange-600" />
-                    <div>
-                      <p className="text-sm font-medium text-orange-900">
-                        Returns
-                      </p>
-                      <p className="text-xs text-orange-700">{returnPolicy}</p>
-                    </div>
-                  </div>
-                </div> */}
-
                 {/* WhatsApp */}
                 <div className="grid grid-cols-2 lg:grid-cols-3 mb-0 lg:mb-10 gap-4 pt-2 border-t">
                   <WhatsAppChat
@@ -590,53 +378,12 @@ export default function ProductDetailsPage() {
                 </div>
               </div>
             </div>
-
-            {/* Description */}
-            <div className="space-y-3">
-              <h3 className="font-medium text-gray-900">Key Features</h3>
-              <ProductDescription
-                description={description}
-                isLoading={isLoading}
-              />
-            </div>
           </>
         )}
       </Container>
 
       {/* Explore More */}
-      <ExploreMore />
-
-      {/* Mobile sticky buttons */}
-      {/*   {!isLoading && productDetails && (
-        <div className="md:hidden fixed bottom-18 left-0 right-0 bg-white border-t border-gray-200 p-4 z-50 shadow-lg">
-          <div className="flex gap-3">
-            <button
-              onClick={handleBuyNowClick}
-              disabled={!isSelectionComplete || isAdding}
-              className="flex-1 bg-primary hover:bg-[#c460b5] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-medium py-2 text-sm px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
-            >
-              {isAdding
-                ? "Processing..."
-                : hasPreOrder
-                ? "Pre-Order"
-                : "Buy Now"}
-            </button>
-            <button
-              onClick={handleAddToCartClick}
-              disabled={!isSelectionComplete || isAdding}
-              className="flex-1 border-2 border-primary text-primary hover:bg-primary hover:text-white disabled:border-gray-300 disabled:text-gray-300 disabled:cursor-not-allowed font-medium py-2 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
-            >
-              {isAdding ? "Adding..." : "Cart"}
-            </button>
-          </div>
-          {!isSelectionComplete && requiredAttributes.length > 0 && (
-            <p className="text-center text-sm text-red-500 mt-2 flex items-center justify-center gap-1">
-              <Info className="w-4 h-4" />
-              Please select all required options to continue
-            </p>
-          )}
-        </div>
-      )} */}
+      {/* <ExploreMore /> */}
     </div>
   );
 }
@@ -749,8 +496,9 @@ const ProductOptions: React.FC<ProductOptionsProps> = ({
                   }`}
                 >
                   {/* Image Placeholder */}
-                  <div className="w-full h-20 bg-red-500 flex items-center justify-center text-white text-[10px]">
-                    Image Here
+                  <div className="w-full h-20 bg-primary/80 flex flex-col items-center justify-center text-white text-[10px]">
+                    <span>No Variant</span>
+                    <span>Image</span>
                   </div>
 
                   {/* Option Label */}
@@ -815,3 +563,286 @@ const ProductOptions: React.FC<ProductOptionsProps> = ({
     </div>
   );
 };
+
+{
+  /* Mobile sticky buttons */
+}
+{
+  /*   {!isLoading && productDetails && (
+        <div className="md:hidden fixed bottom-18 left-0 right-0 bg-white border-t border-gray-200 p-4 z-50 shadow-lg">
+          <div className="flex gap-3">
+            <button
+              onClick={handleBuyNowClick}
+              disabled={!isSelectionComplete || isAdding}
+              className="flex-1 bg-primary hover:bg-[#c460b5] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-medium py-2 text-sm px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
+            >
+              {isAdding
+                ? "Processing..."
+                : hasPreOrder
+                ? "Pre-Order"
+                : "Buy Now"}
+            </button>
+            <button
+              onClick={handleAddToCartClick}
+              disabled={!isSelectionComplete || isAdding}
+              className="flex-1 border-2 border-primary text-primary hover:bg-primary hover:text-white disabled:border-gray-300 disabled:text-gray-300 disabled:cursor-not-allowed font-medium py-2 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
+            >
+              {isAdding ? "Adding..." : "Cart"}
+            </button>
+          </div>
+          {!isSelectionComplete && requiredAttributes.length > 0 && (
+            <p className="text-center text-sm text-red-500 mt-2 flex items-center justify-center gap-1">
+              <Info className="w-4 h-4" />
+              Please select all required options to continue
+            </p>
+          )}
+        </div>
+      )} */
+}
+
+{
+  /* Header row */
+}
+{
+  /* <div className="flex items-center lg:justify-between">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    {!!categoryName && (
+                      <span className="text-sm font-medium text-primary-mid bg-primary/10 px-3 py-1 rounded-full flex items-center gap-1">
+                        <Tag className="w-3 h-3" />
+                        {categoryName}
+                      </span>
+                    )}
+                    {offerTags.slice(0, 2).map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-sm font-medium text-orange-700 bg-orange-100 px-3 py-1 rounded-full flex items-center gap-1"
+                      >
+                        <Zap className="w-3 h-3" />
+                        {tag.replace("-", " ").toUpperCase()}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setIsWishlisted((v) => !v)}
+                      className={`p-2 rounded-full border transition-all duration-200 ${
+                        isWishlisted
+                          ? "bg-primary border-primary text-white"
+                          : "border-gray-300 hover:border-primary hover:text-primary"
+                      }`}
+                      aria-label={
+                        isWishlisted
+                          ? "Remove from wishlist"
+                          : "Add to wishlist"
+                      }
+                    >
+                      <Heart
+                        className={`w-5 h-5 ${
+                          isWishlisted ? "fill-current" : ""
+                        }`}
+                      />
+                    </button>
+                    <button
+                      onClick={async () => {
+                        const shareData = {
+                          title: name,
+                          text: `Check out ${name}!`,
+                          url: window.location.href,
+                        };
+                        try {
+                          if (navigator.share) {
+                            await navigator.share(shareData);
+                          } else {
+                            await navigator.clipboard.writeText(
+                              window.location.href
+                            );
+                            toast.success("Product link copied to clipboard!");
+                          }
+                        } catch {
+                          try {
+                            await navigator.clipboard.writeText(
+                              window.location.href
+                            );
+                            toast.success("Product link copied to clipboard!");
+                          } catch {
+                            toast.error(
+                              "Unable to share. Please copy the URL manually."
+                            );
+                          }
+                        }
+                      }}
+                      className="p-2 rounded-full border border-gray-300 hover:border-primary hover:text-primary transition-all duration-200"
+                      aria-label="Share product"
+                    >
+                      <Share2 className="w-5 h-5" />
+                    </button>
+                  </div>
+                </div> */
+}
+
+{
+  /* Dynamic Attribute Selectors */
+}
+{
+  /* {Object.entries(attributeOptions).map(
+                  ([attributeName, options]) => (
+                    <div key={attributeName} className="space-y-3">
+                      <label className="block text-sm font-medium text-gray-900">
+                        Select {attributeName}
+                      </label>
+                      <div className="flex gap-2 flex-wrap">
+                        {options.map((option) => {
+                          const selected =
+                            selectedAttributes[attributeName] === option;
+                          return (
+                            <button
+                              key={`${attributeName}:${option}`}
+                              onClick={() =>
+                                setSelectedAttributes((prev) => ({
+                                  ...prev,
+                                  [attributeName]: option,
+                                }))
+                              }
+                              className={`px-4 text-xs py-2 border-2 rounded-lg font-medium transition-all duration-200 flex items-center justify-center min-w-[64px] ${
+                                selected
+                                  ? "border-primary bg-primary text-white"
+                                  : "border-gray-300 hover:border-primary hover:text-primary"
+                              }`}
+                              aria-label={`${attributeName} ${option}`}
+                            >
+                              {selected && <Check className="w-3 h-3 mr-1" />}
+                              {option}sss
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )
+                )} */
+}
+
+{
+  /* Quantity */
+}
+{
+  /* <div className="space-y-3">
+                  <label className="block text-sm font-medium text-gray-900">
+                    Quantity
+                  </label>
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center border border-gray-200 rounded-lg">
+                      <button
+                        onClick={() =>
+                          setQuantity((q) => Math.max(minOrderQty, q - 1))
+                        }
+                        className="p-2 hover:bg-gray-50 transition-colors"
+                        disabled={isAdding}
+                        aria-label="Decrease quantity"
+                      >
+                        <Minus className="w-4 h-4" />
+                      </button>
+                      <span className="px-4 py-2 font-medium min-w-12 text-center">
+                        {quantity}
+                      </span>
+                      <button
+                        onClick={() =>
+                          setQuantity((q) =>
+                            Math.min(q + 1, Math.max(1, maxOrderQty))
+                          )
+                        }
+                        className="p-2 hover:bg-gray-50 transition-colors"
+                        disabled={isAdding}
+                        aria-label="Increase quantity"
+                      >
+                        <Plus className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <span className="text-xs text-gray-500">
+                      Min: {minOrderQty}, Max: {maxOrderQty}
+                    </span>
+                  </div>
+                </div> */
+}
+
+{
+  /* Actions */
+}
+{
+  /* <div className="hidden md:flex md:gap-4">
+                  <button
+                    onClick={handleAddToCartClick}
+                    disabled={!isSelectionComplete || isAdding}
+                    className="w-full bg-primary hover:bg-[#c460b5] disabled:bg-gray-300 disabled:cursor-not-allowed text-white py-3 px-6 rounded-lg text-lg font-medium transition-colors flex items-center justify-center gap-2"
+                  >
+                    <ShoppingCart className="w-5 h-5" />
+                    {isAdding ? "Adding..." : "Add to Cart"}
+                  </button>
+                  <button
+                    onClick={handleBuyNowClick}
+                    disabled={!isSelectionComplete || isAdding}
+                    className="w-full border-2 border-primary text-primary hover:bg-primary/10 py-3 px-6 rounded-lg text-lg font-medium transition-colors"
+                  >
+                    {isAdding
+                      ? "Processing..."
+                      : hasPreOrder
+                      ? "Pre-Order"
+                      : "Buy Now"}
+                  </button>
+                </div> */
+}
+
+{
+  /* Delivery / Warranty / Returns */
+}
+{
+  /*   <div className="grid grid-cols-3 gap-1 md:gap-4">
+                  <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
+                    <Truck className="w-5 h-5 text-blue-600" />
+                    <div>
+                      <p className="text-sm font-medium text-blue-900">
+                        {isFreeDelivery ? "Free Shipping" : "Shipping"}
+                      </p>
+                      <p className="text-xs text-blue-700">
+                        {isFreeDelivery
+                          ? deliveryTime
+                          : `Tk ${shippingCost}${
+                              shippingCostPerUnit > 0
+                                ? ` + Tk ${shippingCostPerUnit}/unit`
+                                : ""
+                            }`}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+                    <Shield className="w-5 h-5 text-green-600" />
+                    <div>
+                      <p className="text-sm font-medium text-green-900">
+                        Warranty
+                      </p>
+                      <p className="text-xs text-green-700">{warranty}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 bg-orange-50 rounded-lg">
+                    <RotateCcw className="w-5 h-5 text-orange-600" />
+                    <div>
+                      <p className="text-sm font-medium text-orange-900">
+                        Returns
+                      </p>
+                      <p className="text-xs text-orange-700">{returnPolicy}</p>
+                    </div>
+                  </div>
+                </div> */
+}
+
+{
+  /* Description */
+}
+{
+  /* <div className="space-y-3">
+              <h3 className="font-medium text-gray-900">Key Features</h3>
+              <ProductDescription
+                description={description}
+                isLoading={isLoading}
+              />
+            </div> */
+}

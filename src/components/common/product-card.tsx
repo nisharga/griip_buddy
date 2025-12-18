@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import Image from "next/image";
 import Link from "next/link";
 import { Coins, ShoppingCart } from "lucide-react";
+import SmartImage from "../shared/SmartImage";
 
 interface ProductCardProps {
   product: {
@@ -26,9 +26,9 @@ export default function ProductCard({
   product,
   onAddToCart,
 }: ProductCardProps) {
-  const discountedPrice = product.discountPercentage
+  /* const discountedPrice = product.discountPercentage
     ? (product.price * (100 - product.discountPercentage)) / 100
-    : product.price;
+    : product.price; */
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -56,12 +56,22 @@ export default function ProductCard({
       >
         {/* Image Section */}
         <div className="relative overflow-hidden">
-          <Image
+          {/*  <Image
             src={product?.thumbnail || "/No_Image_Available.jpg"}
             alt={product.name}
             width={400}
             height={200}
             priority
+            // Image subtle scale on hover
+            className="h-48 w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+          /> */}
+
+          <SmartImage
+            src={product?.thumbnail || "/No_Image_Available.jpg"}
+            alt={product.name}
+            width={400}
+            height={200}
+            // priority
             // Image subtle scale on hover
             className="h-48 w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
           />

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Image from "next/image";
 import { Heart, Share2 } from "lucide-react";
+import SmartImage from "@/src/components/shared/SmartImage";
 
 interface ProductImage {
   url: string;
@@ -30,7 +30,16 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
     <div className="space-y-4">
       {/* Main Image */}
       <div className="relative aspect-square size-full bg-white overflow-hidden">
-        <Image
+        {/* <Image
+          src={images[selectedImage].url}
+          alt={
+            images[selectedImage].alt || `Product image ${selectedImage + 1}`
+          }
+          fill
+          className="object-cover"
+          priority={true}
+        /> */}
+        <SmartImage
           src={images[selectedImage].url}
           alt={
             images[selectedImage].alt || `Product image ${selectedImage + 1}`
@@ -70,7 +79,7 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
                 : "border-gray-200 hover:border-gray-300"
             }`}
           >
-            <Image
+            <SmartImage
               src={image.url}
               alt={image.alt || `Thumbnail ${index + 1}`}
               fill

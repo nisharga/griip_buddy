@@ -4,12 +4,12 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, X, ChevronDown } from "lucide-react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import type { ChangeEvent, KeyboardEvent } from "react";
 
 import { searchInputVariants } from "@/src/types/navbar";
-import { useGetSearchProductsQuery } from "@/src/redux/api/product-api";
+import { useGetAllProductsQuery } from "@/src/redux/api/product-api";
+import SmartImage from "./SmartImage";
 
 export function useDebounce<T>(value: T, delay = 300): T {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -76,11 +76,19 @@ const MobileSearch = ({ isOpen, onClose }: MobileSearchOverlayProps) => {
   console.log("debouncedSearchTerm: ", debouncedSearchTerm); // here get acuall value
 
   const shouldSearch = debouncedSearchTerm.trim().length > 0;
-  console.log("shouldSearch: ", shouldSearch);
-  const {
-    data: filteredRecommendations = [],
+
+  /* const {
+    data,
     isFetching: isLoadingRecommendations,
-  } = useGetSearchProductsQuery(debouncedSearchTerm, {});
+  } = useGetSearchProductsQuery(debouncedSearchTerm, {}); */
+
+  const { data, isLoading: isLoadingRecommendations } = useGetAllProductsQuery(
+    debouncedSearchTerm,
+    { skip: !shouldSearch }
+  );
+
+  // ================= fetching ====================
+  const filteredRecommendations = data?.data?.data;
 
   const searchRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -223,10 +231,10 @@ const MobileSearch = ({ isOpen, onClose }: MobileSearchOverlayProps) => {
                   <div>
                     <div className="space-y-3">
                       {/* LIMIT TO MAX 5 PRODUCTS VISIBLE AT ONCE */}
-                      {filteredRecommendations.slice(0, 5).map((item) => (
-                        <div key={item.id}>
+                      {filteredRecommendations.slice(0, 5).map((item: any) => (
+                        <div key={item._id}>
                           <Link
-                            href={`/search?q=${encodeURIComponent(item.name)}`}
+                            href={`/product/${data?.slug}`}
                             className="flex items-center gap-4 p-4 rounded-xl bg-white border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300 group"
                             onClick={() => {
                               setSearchTerm(item.name);
@@ -234,40 +242,42 @@ const MobileSearch = ({ isOpen, onClose }: MobileSearchOverlayProps) => {
                             }}
                           >
                             <div className="relative">
-                              <Image
-                                src={item?.thumbnail || "/placeholder.svg"}
-                                alt={item?.name}
+                              <SmartImage
+                                src={item.thumbnail}
+                                alt={item.name}
                                 width={80}
                                 height={80}
                                 className="rounded-xl object-cover group-hover:scale-105 transition-transform duration-300"
                               />
-                              {item?.discountPercentage > 0 && (
+                              {/*  {item?.discountPercentage > 0 && (
                                 <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
                                   -{item?.discountPercentage}%
                                 </div>
-                              )}
+                              )} */}
                             </div>
                             <div className="flex-1 min-w-0">
                               <h4 className="text-sm font-semibold text-gray-900 group-hover:text-primary transition-colors line-clamp-2">
                                 {item.name}
                               </h4>
                               <div className="flex items-center gap-2 mt-2">
-                                {item.discountPercentage > 0 ? (
+                                {item.variants[0].sale_price > 0 ? (
                                   <>
                                     <span className="text-base font-bold text-red-500">
-                                      ৳
-                                      {(
+                                      ৳ {item.variants[0].sale_price}
+                                      {/* {(
                                         item.price *
                                         (1 - item.discountPercentage / 100)
-                                      ).toFixed(0)}
+                                      ).toFixed(0)} */}
                                     </span>
                                     <span className="text-sm text-gray-500 line-through">
-                                      ৳{item.price.toFixed(0)}
+                                      {/* ৳{item.price.toFixed(0)} */}
+                                      {item.variants[0].regular_price}
                                     </span>
                                   </>
                                 ) : (
                                   <span className="text-lg font-bold text-gray-900">
-                                    ৳{item.price.toFixed(0)}
+                                    {/* ৳{item.price.toFixed(0)} */}
+                                    {item.variants[0].sale_price}
                                   </span>
                                 )}
                               </div>

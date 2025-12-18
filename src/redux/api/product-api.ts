@@ -58,8 +58,15 @@ const productApi = apiSlice.injectEndpoints({
       },
     }),
 
+   getSingleProduct: builder.query({
+      query: ({ slug }) => ({
+        url: `/product/web/slug/${slug}`,
+        method: "GET",
+      }),
+      providesTags: ["CATEGORIES"],
+    }),  
 
-    getSearchProducts: builder.query({
+ /*    getSearchProducts: builder.query({
       async queryFn(searchTerm) {
         // ⏳ simulate real API delay
         await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -74,9 +81,9 @@ const productApi = apiSlice.injectEndpoints({
 
         return { data: filtered };
       },
-    }),
+    }), */
 
-    getSingleProduct: builder.query({
+  /*   getSingleProduct: builder.query({
       async queryFn(slug: string) {
         // ⏳ simulate 1s loading
         await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -101,7 +108,7 @@ const productApi = apiSlice.injectEndpoints({
       providesTags: (_result, _error, slug) => [
         { type: "PRODUCTS", id: slug },
       ],
-    }),
+    }), */
 
 
    /*  getAllSideCards: builder.query({
@@ -159,6 +166,6 @@ const productApi = apiSlice.injectEndpoints({
 
 export const {
   useGetAllProductsQuery,
-  useGetSearchProductsQuery,
+  // useGetSearchProductsQuery,
   useGetSingleProductQuery
 } = productApi;
