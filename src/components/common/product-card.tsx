@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { Coins, ShoppingCart } from "lucide-react";
 import SmartImage from "../shared/SmartImage";
+import { cartManager } from "@/src/lib/cartManager";
+import { toast } from "sonner";
 
 interface ProductCardProps {
   product: {
@@ -31,11 +33,26 @@ export default function ProductCard({
     : product.price; */
 
   const handleAddToCart = (e: React.MouseEvent) => {
+    // 1. Prevent Navigation
     e.preventDefault();
-    if (onAddToCart) {
-      onAddToCart(product.id);
-    } else {
-      alert(`Added product ID: ${product.id}`);
+    e.stopPropagation();
+
+    try {
+      // 2. Add to LocalStorage
+      cartManager.addToCart(product);
+
+      // 3. Trigger Sonner Toast
+      toast.success(`${product.name} added to cart!`, {
+        description: "Item is ready for checkout.",
+        duration: 3000,
+        action: {
+          label: "View Cart",
+          onClick: () => (window.location.href = "/cart"), // Or use your router
+        },
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to add item. Please try again.");
     }
   };
 
@@ -52,20 +69,10 @@ export default function ProductCard({
       <div
         className="group bg-white h-full
                        transition-all duration-300 ease-in-out
-                       hover:shadow-md hover:-translate-y-1 p-1 sm:p-2" // Full card lift and shadow on hover
+                       hover:shadow-md hover:-translate-y-1 p-1 sm:p-2"
       >
         {/* Image Section */}
         <div className="relative overflow-hidden">
-          {/*  <Image
-            src={product?.thumbnail || "/No_Image_Available.jpg"}
-            alt={product.name}
-            width={400}
-            height={200}
-            priority
-            // Image subtle scale on hover
-            className="h-48 w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-          /> */}
-
           <SmartImage
             src={product?.thumbnail || "/No_Image_Available.jpg"}
             alt={product.name}
@@ -127,8 +134,8 @@ export default function ProductCard({
 
             {/* Add to cart: Prevent click propagation to the main Link */}
             <button
-              onClick={handleAddToCart}
-              className="h-10 w-10 bg-gray-100 hover:bg-primary hover:text-white text-gray-800 flex items-center justify-center transition-colors duration-200 border border-gray-100"
+              onClick={(e) => handleAddToCart(e)}
+              className="h-10 w-10 bg-gray-100 hover:bg-primary hover:text-white text-gray-800 flex items-center justify-center transition-colors duration-200 border border-gray-100 cursor-pointer"
               aria-label="Add to cart"
               // Stop event from bubbling up to the surrounding <Link>
               onMouseDown={(e) => e.stopPropagation()}

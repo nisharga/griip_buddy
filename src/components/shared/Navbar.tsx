@@ -24,12 +24,15 @@ import { useGetAllCategoriesQuery } from "@/src/redux/api/category-api";
 import SkeletonCategories from "../skeleton/SkeletonCategories";
 import DesktopSearch from "./DesktopSearch";
 import MobileSidebar from "./MobileSidebar";
+import { useCart } from "@/src/hooks/useCart";
 
 // import { mockSearchData } from "@/src/lib/data";
 
 const Navbar = () => {
   // const { totalItems, isOpen } = useAppSelector((state) => state.cart);
-  const totalItems = 0;
+  const { cartLength } = useCart();
+  console.log("🚀 ~ Navbar ~ cartLength:", cartLength);
+  const totalItems = cartLength;
   const { data: currentProfile } = useGetCurrentProfileQuery({});
   console.log(currentProfile, "currentProfile");
 
@@ -324,7 +327,7 @@ const Navbar = () => {
                     <motion.span
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
-                      className="absolute -top-2 -right-2 bg-primary text-secondary text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center"
+                      className="absolute -top-2 -right-13 bg-primary text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center text-white"
                     >
                       {totalItems > 99 ? "99+" : totalItems}
                     </motion.span>
