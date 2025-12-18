@@ -3,7 +3,7 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
+// import Image from "next/image";
 import { toast } from "sonner";
 import {
   ShoppingCart,
@@ -37,6 +37,7 @@ import {
   removeItem as removeLocalItem,
   updateQty as updateLocalQty,
 } from "@/src/redux/features/cart-slice";
+import SmartImage from "@/src/components/shared/SmartImage";
 
 // import { Button } from "@/components/ui/button";
 // import { Input } from "@/components/ui/input";
@@ -132,7 +133,7 @@ const CartItemComponent: React.FC<{
       <CardContent className="px-4 py-3 md:px-5 md:py-0">
         <div className="grid grid-cols-[88px_1fr_auto] sm:grid-cols-[104px_1fr_auto] items-start gap-4">
           <div className="relative aspect-square w-22 sm:w-26 overflow-hidden rounded-xl bg-gray-50 ring-1 ring-gray-200">
-            <Image
+            <SmartImage
               src={
                 item.product.thumbnail ||
                 "/placeholder.svg?height=208&width=208&query=product"

@@ -24,15 +24,15 @@ import { useGetAllCategoriesQuery } from "@/src/redux/api/category-api";
 import SkeletonCategories from "../skeleton/SkeletonCategories";
 import DesktopSearch from "./DesktopSearch";
 import MobileSidebar from "./MobileSidebar";
-import { useCart } from "@/src/hooks/useCart";
+import { selectCartCount } from "@/src/redux/features/cart-slice";
+import { useAppSelector } from "@/src/redux/store";
 
 // import { mockSearchData } from "@/src/lib/data";
 
 const Navbar = () => {
   // const { totalItems, isOpen } = useAppSelector((state) => state.cart);
-  const { cartLength } = useCart();
-  console.log("🚀 ~ Navbar ~ cartLength:", cartLength);
-  const totalItems = cartLength;
+  const cartCount = useAppSelector(selectCartCount);
+  const totalItems = cartCount;
   const { data: currentProfile } = useGetCurrentProfileQuery({});
   console.log(currentProfile, "currentProfile");
 
