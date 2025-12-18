@@ -173,14 +173,14 @@ export default function Component() {
 
   return (
     <>
-      {products.map((product, i) => (
+      {/* {products.map((product, i) => (
         <ProductCard
           key={i}
           product={product as any}
           onAddToCart={handleAddToCart}
           // onBuyNow={handleBuyNow}
         />
-      ))}
+      ))} */}
     </>
   );
 }

@@ -34,7 +34,6 @@ const Navbar = () => {
   const cartCount = useAppSelector(selectCartCount);
   const totalItems = cartCount;
   const { data: currentProfile } = useGetCurrentProfileQuery({});
-  console.log(currentProfile, "currentProfile");
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
