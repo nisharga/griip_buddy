@@ -46,8 +46,6 @@ export default function ProductCard({
   const regular_price = product?.variants[0].regular_price || "0";
   const sell_price = product?.variants[0].sell_price || "0";
 
-  console.log("product", product);
-
   return (
     <Link href={`/product/${product?.slug}`} className="block">
       {/* PREMIUM CARD CONTAINER: ENTIRE CARD IS INTERACTIVE */}

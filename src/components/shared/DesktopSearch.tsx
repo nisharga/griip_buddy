@@ -9,7 +9,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import type { ChangeEvent, KeyboardEvent } from "react";
 
-import { useGetSearchProductsQuery } from "@/src/redux/api/product-api";
+import { useGetAllProductsQuery } from "@/src/redux/api/product-api";
 
 /* ---------------- Debounce Hook ---------------- */
 function useDebounce<T>(value: T, delay = 300): T {
@@ -46,10 +46,13 @@ const DesktopSearch = () => {
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const shouldSearch = debouncedSearchTerm.trim().length > 0;
 
-  const { data = [], isFetching } = useGetSearchProductsQuery(
+  const { data: product, isFetching } = useGetAllProductsQuery(
     debouncedSearchTerm,
     { skip: !shouldSearch }
   );
+
+  // ================= fetching ====================
+  const data = product?.data?.data;
 
   const searchRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -125,8 +128,8 @@ const DesktopSearch = () => {
               <div className="max-h-105 overflow-y-auto">
                 {data?.slice(0, 6).map((item: any) => (
                   <Link
-                    key={item.id}
-                    href={`/search?q=${encodeURIComponent(item.name)}`}
+                    key={item._id}
+                    href={`/product/${data?.slug}`}
                     className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition"
                     onClick={() => {
                       setSearchTerm(item.name);
@@ -134,7 +137,7 @@ const DesktopSearch = () => {
                     }}
                   >
                     <Image
-                      src={item.thumbnail || "/placeholder.svg"}
+                      src={item.thumbnail || "/No_Image_Available.jpg"}
                       alt={item.name}
                       width={44}
                       height={44}
@@ -144,23 +147,26 @@ const DesktopSearch = () => {
                       <p className="text-sm font-medium line-clamp-1 text-gray-900">
                         {item.name}
                       </p>
+
                       <div className="flex gap-2 items-center">
-                        {item?.discountPercentage > 0 ? (
+                        {item.variants[0].sale_price > 0 ? (
                           <>
                             <span className="text-sm font-bold text-red-500">
-                              ৳
-                              {(
+                              ৳ {item.variants[0].sale_price}
+                              {/* {(
                                 item?.price *
                                 (1 - item.discountPercentage / 100)
-                              ).toFixed(0)}
+                              ).toFixed(0)} */}
                             </span>
                             <span className="text-xs text-gray-400 line-through">
-                              ৳{item?.price.toFixed(0)}
+                              {/* ৳{item?.price.toFixed(0)} */}
+                              {item.variants[0].regular_price}
                             </span>
                           </>
                         ) : (
                           <span className="text-sm font-bold">
-                            ৳{item?.price?.toFixed(0)}
+                            {/* ৳{item?.price?.toFixed(0)} */}৳
+                            {item.variants[0].sale_price}
                           </span>
                         )}
                       </div>
