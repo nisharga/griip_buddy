@@ -5,6 +5,8 @@ import { Coins, ShoppingCart } from "lucide-react";
 import SmartImage from "../shared/SmartImage";
 import { cartManager } from "@/src/lib/cartManager";
 import { toast } from "sonner";
+import { useAppDispatch } from "@/src/redux/store";
+import { addItem } from "@/src/redux/features/cart-slice";
 
 interface ProductCardProps {
   product: {
@@ -24,34 +26,52 @@ interface ProductCardProps {
   onAddToCart?: (productId: string) => void;
 }
 
-export default function ProductCard({
-  product,
-  onAddToCart,
-}: ProductCardProps) {
+export default function ProductCard({ product, onAddToCart }: any) {
   /* const discountedPrice = product.discountPercentage
     ? (product.price * (100 - product.discountPercentage)) / 100
     : product.price; */
 
+  const dispatch = useAppDispatch();
+
   const handleAddToCart = (e: React.MouseEvent) => {
-    // 1. Prevent Navigation
     e.preventDefault();
     e.stopPropagation();
 
     try {
-      // 2. Add to LocalStorage
-      cartManager.addToCart(product);
+      // 1️⃣ Safety check
+      if (!product || !product.variants || product.variants.length === 0) {
+        toast.error("This product is not available right now.");
+        return;
+      }
 
-      // 3. Trigger Sonner Toast
+      // 2️⃣ Pick selected variant (for now: first one)
+      const selectedVariant = product.variants[0];
+
+      const quantity = product?.min_order_qty ?? 1;
+
+      // 3️⃣ Dispatch to Redux cart
+      dispatch(
+        addItem({
+          productId: product._id,
+          variantId: selectedVariant._id,
+          attributes: selectedVariant.attribute_values ?? {},
+          quantity,
+          priceSnapshot:
+            selectedVariant.sale_price ?? selectedVariant.regular_price ?? 0,
+        })
+      );
+
+      console.log("Added to cart:", {
+        productId: product._id,
+        variantId: selectedVariant._id,
+      });
+
+      // 4️⃣ Success toast
       toast.success(`${product.name} added to cart!`, {
-        description: "Item is ready for checkout.",
         duration: 3000,
-        action: {
-          label: "View Cart",
-          onClick: () => (window.location.href = "/cart"), // Or use your router
-        },
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       toast.error("Failed to add item. Please try again.");
     }
   };

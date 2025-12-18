@@ -380,6 +380,12 @@ export default function ProductDetailsPage() {
             </div>
           </>
         )}
+
+        {/* /* Description */}
+        <div className="space-y-3">
+          <h3 className="font-medium text-gray-900">Key Features</h3>
+          <ProductDescription description={description} isLoading={isLoading} />
+        </div>
       </Container>
 
       {/* Explore More */}
@@ -832,17 +838,4 @@ const ProductOptions: React.FC<ProductOptionsProps> = ({
                     </div>
                   </div>
                 </div> */
-}
-
-{
-  /* Description */
-}
-{
-  /* <div className="space-y-3">
-              <h3 className="font-medium text-gray-900">Key Features</h3>
-              <ProductDescription
-                description={description}
-                isLoading={isLoading}
-              />
-            </div> */
 }

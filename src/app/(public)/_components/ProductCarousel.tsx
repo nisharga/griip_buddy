@@ -25,7 +25,6 @@ export default function ProductCarousel() {
   const { data, isLoading, isError } = useGetAllProductsQuery({});
 
   const productData = data?.data?.data;
-  console.log("productData", productData);
 
   const [prevBtnDisabled, setPrevBtnDisabled] = useState(true);
   const [nextBtnDisabled, setNextBtnDisabled] = useState(true);
