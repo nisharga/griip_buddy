@@ -42,3 +42,27 @@ describe("ProductCard", () => {
     expect(card).toHaveAttribute("id", "product-card");
   });
 });
+
+describe("Product Flag", () => {
+  it("renders the product fast delivery flag", () => {
+    render(
+      <Provider store={store}>
+        <ProductCard product={mockProduct} />
+      </Provider>
+    );
+
+    const flag = screen.getByTestId("fast_delivery");
+    expect(flag).toBeVisible();
+  });
+
+  it("renders the discount percentage", () => {
+    render(
+      <Provider store={store}>
+        <ProductCard product={mockProduct} />
+      </Provider>
+    );
+
+    const discountPercentage = screen.getByTestId("discount");
+    expect(discountPercentage).toBeVisible();
+  });
+});

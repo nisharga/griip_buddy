@@ -82,6 +82,7 @@ export default function ProductCard({ product, onAddToCart }: any) {
   const coin_per_order = product?.coin_per_order || "0";
   const regular_price = product?.variants[0].regular_price || "0";
   const sell_price = product?.variants[0].sell_price || "0";
+  const discount = product.discountPercentage;
 
   return (
     <Link
@@ -107,14 +108,20 @@ export default function ProductCard({ product, onAddToCart }: any) {
             // Image subtle scale on hover
             className="h-48 w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
           />
-          {product.discountPercentage && (
-            <span className="absolute top-0 left-0 bg-black text-white text-xs font-bold uppercase px-2 py-1 tracking-wider">
-              SAVE {product.discountPercentage}%
+          {discount && (
+            <span
+              className="absolute top-0 left-0 bg-black text-white text-xs font-bold uppercase px-2 py-1 tracking-wider"
+              data-testid="discount"
+            >
+              SAVE {discount}%
             </span>
           )}
 
-          {product.discountPercentage && (
-            <span className="absolute bottom-0 left-0 bg-black text-white text-xs font-bold uppercase px-2 py-1 tracking-wider">
+          {discount && (
+            <span
+              className="absolute bottom-0 left-0 bg-black text-white text-xs font-bold uppercase px-2 py-1 tracking-wider"
+              data-testid="fast_delivery"
+            >
               🚚 FREE DELIVERY
             </span>
           )}
