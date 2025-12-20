@@ -84,7 +84,12 @@ export default function ProductCard({ product, onAddToCart }: any) {
   const sell_price = product?.variants[0].sell_price || "0";
 
   return (
-    <Link href={`/product/${product?.slug}`} className="block">
+    <Link
+      href={`/product/${product?.slug}`}
+      className="block"
+      id="product-card"
+      data-testid="product-card"
+    >
       {/* PREMIUM CARD CONTAINER: ENTIRE CARD IS INTERACTIVE */}
       <div
         className="group bg-white h-full
