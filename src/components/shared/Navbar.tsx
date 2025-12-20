@@ -98,6 +98,8 @@ const Navbar = () => {
                   className="md:h-17.5 h-15 w-auto"
                   width={400}
                   height={100}
+                  priority
+                  fetchPriority="high"
                 />
               </Link>
 

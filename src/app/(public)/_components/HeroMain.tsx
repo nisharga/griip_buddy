@@ -142,12 +142,14 @@ const HeroMain = () => {
               <button
                 onClick={prevSlide}
                 className="absolute cursor-pointer left-4 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm hover:bg-white transition-all duration-200 rounded-full p-2 z-10"
+                aria-label="Prev Slide"
               >
                 <ChevronLeft className="md:size-6 size-4 text-slate-700" />
               </button>
               <button
                 onClick={nextSlide}
                 className="absolute right-4 cursor-pointer top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm hover:bg-white transition-all duration-200 rounded-full p-2 z-10"
+                aria-label="Next Slide"
               >
                 <ChevronRight className="md:size-6 size-4 text-slate-700" />
               </button>

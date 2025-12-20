@@ -1,7 +1,13 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
+interface CustomNextConfig extends NextConfig {
+  swcMinify: boolean;
+}
+
+const nextConfig: CustomNextConfig = {
   output: 'standalone',
+    // ⚡ Minify JS
+  swcMinify: true,
   /* config options here */
   images: { 
     remotePatterns: [
@@ -28,7 +34,12 @@ const nextConfig: NextConfig = {
       }
     ]
   },
-  
+   // 🧹 Clean production logs
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production",
+  },
+
+  reactStrictMode: true,
 };
 
 export default nextConfig;

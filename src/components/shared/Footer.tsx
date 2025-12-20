@@ -52,9 +52,9 @@ const Footer = () => {
 
             {/* Social Links */}
             <div className="space-y-2">
-              <h5 className="text-white font-semibold text-xs uppercase tracking-wider">
+              <h4 className="text-white font-semibold text-xs uppercase tracking-wider">
                 Follow Us
-              </h5>
+              </h4>
               <div className="flex space-x-3">
                 <a
                   target="_blank"

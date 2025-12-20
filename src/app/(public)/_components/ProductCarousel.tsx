@@ -61,12 +61,14 @@ export default function ProductCarousel() {
       {/* Navigation Controls (Prev/Next/Dots) */}
 
       <button
+        aria-label="back"
         onClick={scrollPrev}
         className="absolute cursor-pointer left-0 top-1/2 -translate-y-1/2 bg-white/60 backdrop-blur-sm hover:bg-white transition-all duration-200 rounded-full p-1 sm:p-2 z-10 border"
       >
         <ChevronLeft className="md:size-6 size-4 text-slate-700" />
       </button>
       <button
+        aria-label="next"
         onClick={scrollNext}
         className="absolute right-0 cursor-pointer top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm hover:bg-white transition-all duration-200 rounded-full p-1 sm:p-2 z-10 border"
       >
@@ -85,6 +87,7 @@ export default function ProductCarousel() {
           <Link
             className="inline-flex text-xs items-center gap-2"
             href="/view-category"
+            aria-label="View all products"
           >
             <button
               data-slot="button"

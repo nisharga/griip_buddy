@@ -7,9 +7,13 @@
 // import TopVendors from "@/components/home/sections/TopVendors";
 // import TopCategories from "@/components/home/sections/TopCategories";
 
-import { HeroMain, ProductCarousel } from "./_components";
+import dynamic from "next/dynamic";
+import { ProductCarousel } from "./_components";
+const HeroMain = dynamic(() => import("./_components/HeroMain"), {
+  ssr: true,
+});
 
-const HomePageMain = async () => {
+const HomePageMain = () => {
   return (
     <div className="">
       <HeroMain />
