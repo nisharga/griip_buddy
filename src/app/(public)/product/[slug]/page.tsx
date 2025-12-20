@@ -315,15 +315,15 @@ export default function ProductDetailsPage() {
                 {/* Price */}
                 <div className="space-y-2">
                   <div className="flex items-center gap-3">
-                    <span className="text-2xl font-semibold text-gray-900">
+                    <span className="text-xl sm:text-2xl font-semibold text-gray-900">
                       Tk {Number(salePrice).toLocaleString()}
                     </span>
                     {regularPrice > salePrice && (
                       <>
-                        <span className="text-xl text-gray-500 line-through">
+                        <span className="text-lg sm:text-xl text-gray-500 line-through">
                           Tk {Number(regularPrice).toLocaleString()}
                         </span>
-                        <span className="bg-green-100 text-green-800 text-sm font-medium px-2 py-1 rounded-full flex items-center gap-1">
+                        <span className="bg-green-100 text-green-800 text-xs sm:text-sm font-medium px-2 py-1 rounded-full flex items-center gap-1">
                           <CheckCircle className="w-3 h-3" />
                           {discountPercentage}% OFF
                         </span>
@@ -337,7 +337,7 @@ export default function ProductDetailsPage() {
                     contentTwo="Order Now"
                   />
 
-                  <div className="flex items-center gap-4 text-sm text-gray-600">
+                  <div className="flex items-start sm:items-center gap-2 sm:gap-4 text-sm text-gray-600 flex-col sm:flex-row">
                     <p className="flex items-center gap-1">
                       <Info className="w-4 h-4" />
                       Inclusive of all taxes •{" "}
@@ -431,7 +431,7 @@ const PromoBanner = ({ title, contentOne, contentTwo }: any) => {
 
         <div className="h-4 w-px bg-white/30" />
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1.5 text-xs sm:text-sm">
           <svg
             className="h-4 w-4"
             fill="none"

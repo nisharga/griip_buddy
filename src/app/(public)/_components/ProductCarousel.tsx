@@ -79,7 +79,7 @@ export default function ProductCarousel() {
       <div className="flex items-center justify-between mb-2 sm:mb-4 px-2 sm:px-0">
         <div className="flex items-center justify-between w-full">
           <div>
-            <h3 className="font-bold uppercase tracking-wide text-secondary">
+            <h3 className="font-medium lg:font-bold uppercase tracking-wide text-secondary">
               {categoryLabel}
             </h3>
             <div className="mt-1 h-0.5 w-full bg-secondary"></div>
@@ -115,7 +115,7 @@ export default function ProductCarousel() {
       </div>
 
       <div className="embla overflow-hidden" ref={emblaRef}>
-        <div className="embla__container flex">
+        <div className="embla__container flex px-1 sm:px-0">
           {isLoading ? (
             Array.from({ length: 5 }).map((_, index) => (
               <div
