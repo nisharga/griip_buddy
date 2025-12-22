@@ -400,7 +400,7 @@ const PromoBanner = ({ title, contentOne, contentTwo }: any) => {
     <div className="flex items-stretch overflow-hidden rounded-lg bg-[#1D3E2F] text-white shadow-md max-w-2xl">
       {/* Red Left Section with Slanted Edge */}
       <div
-        className="relative flex flex-col justify-center bg-[#AC251B] px-6 py-2 text-center"
+        className="relative flex flex-col justify-center bg-[#AC251B] px-4 sm:px-6 py-2 text-center"
         style={{ clipPath: "polygon(0 0, 100% 0, 85% 100%, 0% 100%)" }}
       >
         <span className="text-xs font-bold uppercase leading-tight tracking-wider">
@@ -412,9 +412,9 @@ const PromoBanner = ({ title, contentOne, contentTwo }: any) => {
 
       {/* Content Section */}
       <div className="flex flex-1 items-center justify-start gap-4 py-2 pl-4 pr-6 text-sm font-medium">
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1.5 text-xs sm:text-sm">
           <svg
-            className="h-4 w-4"
+            className="h-4 w-4 hidden sm:block"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -433,7 +433,7 @@ const PromoBanner = ({ title, contentOne, contentTwo }: any) => {
 
         <div className="flex items-center gap-1.5 text-xs sm:text-sm">
           <svg
-            className="h-4 w-4"
+            className="h-4 w-4 hidden sm:block"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -530,7 +530,7 @@ const ProductOptions: React.FC<ProductOptionsProps> = ({
           <select
             value={quantity}
             onChange={(e) => setQuantity(Number(e.target.value))}
-            className="w-full appearance-none bg-white border border-gray-300 rounded-lg py-2 px-4 pr-8 text-sm font-bold focus:outline-none focus:ring-1 focus:ring-gray-400"
+            className="w-full appearance-none bg-white border border-gray-300 rounded-lg py-1 sm:py-2 px-4 pr-8 text-sm font-bold focus:outline-none focus:ring-1 focus:ring-gray-400"
           >
             {[1, 2, 3, 4, 5].map((num) => (
               <option key={num} value={num}>
@@ -543,13 +543,15 @@ const ProductOptions: React.FC<ProductOptionsProps> = ({
       </div>
 
       {/* Action Buttons */}
-      <div className="flex mt-2 gap-2">
+      <div className="flex mt-0 sm:mt-2 gap-2">
         {/* Add to Cart */}
         <button
           onClick={onAddToCart}
           className="flex-1 border-2 border-gray-300 rounded-full py-1 px-4 hover:bg-gray-50 transition-colors"
         >
-          <div className="text-base font-bold text-gray-900">Add to cart</div>
+          <div className="text-sm sm:text-base font-semibold sm:font-bold text-gray-900">
+            Add to cart
+          </div>
           <div className="text-[10px] uppercase font-bold text-gray-600">
             63% OFF
           </div>
@@ -560,7 +562,9 @@ const ProductOptions: React.FC<ProductOptionsProps> = ({
           onClick={onBuyNow}
           className="flex-1 bg-primary hover:bg-primary/90 text-white rounded-full py-1 px-4 transition-colors"
         >
-          <div className="text-base font-bold">Buy now</div>
+          <div className="text-sm sm:text-base font-semibold sm:font-bold">
+            Buy now
+          </div>
           <div className="text-[10px] font-medium opacity-90">
             Fastest delivery in 2 days
           </div>

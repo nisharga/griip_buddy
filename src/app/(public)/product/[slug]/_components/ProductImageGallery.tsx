@@ -29,7 +29,7 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
   return (
     <div className="space-y-4">
       {/* Main Image */}
-      <div className="relative aspect-square size-full bg-white overflow-hidden mb-2 sm:mb-0">
+      <div className="relative aspect-square size-full bg-white overflow-hidden mb-2 sm:mb-4">
         {/* <Image
           src={images[selectedImage].url}
           alt={
